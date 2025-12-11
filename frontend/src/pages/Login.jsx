@@ -80,7 +80,7 @@ export default function Login() {
 
           <div>
             <h1 className="font-extrabold text-2xl text-headerHighlight drop-shadow-glow">
-              Lingahub
+              Linguahub
             </h1>
             <p className="text-xs text-textSecondary">
               Gamified language learning platform
@@ -161,7 +161,7 @@ export default function Login() {
 
         {/* Register Link */}
         <p className="mt-4 text-xs text-center text-textSecondary">
-          New to Lingahub?{" "}
+          New to Linguahub?{" "}
           <Link to="/register" className="text-accent2 font-semibold hover:underline">
             Create an account
           </Link>

@@ -56,7 +56,7 @@ export default function Sidebar({ user, onLogout }) {
 
         <div>
           <h1 className="font-extrabold text-xl tracking-wide text-headerHighlight drop-shadow-glow flex items-center gap-1">
-            Lingahub
+            Linguahub
             <motion.span
               animate={{ scale: [1, 1.15, 1] }}
               transition={{ repeat: Infinity, duration: 1.8 }}

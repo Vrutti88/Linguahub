@@ -67,7 +67,7 @@ export default function Navbar({ user }) {
 
         <div>
           <h1 className="font-extrabold text-lg text-headerHighlight drop-shadow-glow flex items-center gap-1">
-            Lingahub
+            Linguahub
             <motion.span
               animate={{ scale: [1, 1.2, 1] }}
               transition={{ repeat: Infinity, duration: 1.6 }}

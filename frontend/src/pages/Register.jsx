@@ -84,7 +84,7 @@ export default function Register() {
 
         {/* Header */}
         <h2 className="text-3xl font-extrabold mb-2 text-headerHighlight drop-shadow-glow">
-          Join Lingahub 🎉
+          Join Linguahub 🎉
         </h2>
         <p className="text-xs text-textSecondary mb-5">
           Learn languages with streaks, XP and fun challenges!
