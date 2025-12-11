@@ -5,6 +5,7 @@ const UserSchema = new mongoose.Schema({
   email: { type: String, unique: true },
   password: String,
   role: { type: String, default: "student" },
+  xp: { type: Number, default: 0 },
 
   // 🔥 Duolingo-style onboarding fields
   onboardingCompleted: {

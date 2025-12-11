@@ -87,7 +87,7 @@ export default function Navbar({ user }) {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.25 }}
           >
-            <XPBar xp={42} goal={100} />
+            <XPBar xp={user?.xp ?? 0} />
           </motion.div>
         </div>
       )}

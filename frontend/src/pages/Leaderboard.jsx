@@ -40,7 +40,7 @@ export default function Leaderboard() {
   // STUDENT VIEW
   // ==========================
   const StudentLeaderboard = () => (
-    <div className="space-y-6">
+    <div className="space-y-6 p-4">
       {/* HEADER */}
       <motion.div
         initial={{ opacity: 0, y: -8 }}

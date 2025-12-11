@@ -200,7 +200,7 @@ export default function Quiz() {
           </button>
 
           <button
-            onClick={() => navigate(`/lessons/${lessonId}`)}
+            onClick={() => navigate(`/lessons`)}
             className="flex-1 px-4 py-2 rounded-xl bg-bg border border-accent2/40 text-xs hover:bg-accent3 hover:text-bg transition shadow-glow"
           >
             Back to Lesson

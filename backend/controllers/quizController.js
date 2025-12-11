@@ -1,5 +1,6 @@
 import Quiz from "../models/quiz.js";
 import Lesson from "../models/lesson.js";
+import User from "../models/user.js";
 
 // 🟩 Get quiz for lesson
 export const getQuiz = async (req, res) => {
@@ -34,20 +35,20 @@ export const getQuizByLessonId = async (req, res) => {
 // 🟧 STUDENT: Submit quiz (MCQ + Fill)
 export const submitQuiz = async (req, res) => {
   try {
+    const userId = req.user.id;
     const { lessonId, answers } = req.body;
 
     const quiz = await Quiz.findOne({ lessonId });
     if (!quiz) return res.status(404).json({ msg: "Quiz not found" });
 
-    let score = 0;
+    // Load user
+    const user = await User.findById(userId);
 
+    let score = 0;
     quiz.questions.forEach((q, idx) => {
       const userAnswer = answers[idx];
 
-      if (q.type === "mcq") {
-        if (Number(userAnswer) === q.answer) score++;
-      }
-
+      if (q.type === "mcq" && Number(userAnswer) === q.answer) score++;
       if (q.type === "fib") {
         if (
           String(userAnswer).trim().toLowerCase() ===
@@ -58,10 +59,48 @@ export const submitQuiz = async (req, res) => {
       }
     });
 
-    res.json({ score, total: quiz.questions.length });
+    const percent = (score / quiz.questions.length) * 100;
+
+    // ---------------------------
+    //  XP LOGIC (Fair + Accurate)
+    // ---------------------------
+
+    let xpEarned = 0;
+
+    if (percent >= 90) {
+      xpEarned = 50; // high score
+    } else if (percent >= 60) {
+      xpEarned = 30; // pass bonus
+    } else {
+      xpEarned = 0; // fail → no XP
+    }
+
+    // ---------------------------------------
+    // BLOCK XP IF USER ALREADY COMPLETED QUIZ
+    // ---------------------------------------
+    const alreadyDone = user.progress.completedLessons.includes(lessonId);
+
+    if (alreadyDone) {
+      xpEarned = 0; // 🚫 prevent XP farming
+    } else {
+      // first time → award XP + mark lesson complete
+      user.progress.completedLessons.push(lessonId);
+      user.xp += xpEarned;
+      await user.save();
+    }
+
+    return res.json({
+      score,
+      total: quiz.questions.length,
+      percent,
+      xpEarned,
+      totalXP: user.xp,
+      alreadyCompleted: alreadyDone,
+    });
+
   } catch (err) {
     console.error(err);
-    res.status(500).json({ msg: "Submission failed" });
+    return res.status(500).json({ msg: "Submission failed" });
   }
 };
 

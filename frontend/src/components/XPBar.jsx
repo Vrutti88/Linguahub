@@ -1,6 +1,9 @@
 import { motion } from "framer-motion";
 
-export default function XPBar({ xp = 0, goal = 100 }) {
+export default function XPBar({ xp = 0 }) {
+  // LEVEL SYSTEM
+  const level = Math.floor(xp / 200) + 1;         // Every 200 XP = +1 Level
+  const goal = level * 200;                        // XP needed for next level
   const percent = Math.min(100, Math.round((xp / goal) * 100));
 
   return (
@@ -15,44 +18,33 @@ export default function XPBar({ xp = 0, goal = 100 }) {
         overflow-hidden
       "
     >
-      {/* ✨ Floating Particle */}
-      {/* <motion.div
-        className="absolute top-2 right-3 text-[10px] opacity-50 pointer-events-none"
-        animate={{ y: [0, -4, 0] }}
-        transition={{ repeat: Infinity, duration: 2.4 }}
-      >
-        ✨
-      </motion.div> */}
 
-      {/* ✨ Background Glow Aura */}
+      {/* Glow aura */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 0.12 }}
         className="absolute inset-0 bg-accent2/30 blur-2xl pointer-events-none"
       />
 
-      {/* Top Labels */}
+      {/* LEVEL + XP HEADER */}
       <div className="flex justify-between text-[11px] mb-2 relative z-10">
         <span className="font-semibold text-headerHighlight drop-shadow-glow">
-          XP Progress
+          Level {level}
         </span>
         <span className="text-textSecondary">
           {xp} / {goal} XP
         </span>
       </div>
 
-      {/* XP Bar Track */}
+      {/* XP BAR */}
       <div className="w-full h-2 bg-bg rounded-xl overflow-hidden border border-accent2/30 relative z-10">
-        {/* XP Fill */}
         <motion.div
           initial={{ width: 0 }}
           animate={{ width: `${percent}%` }}
           transition={{ duration: 0.7, ease: "easeOut" }}
-          className="
-            h-full rounded-xl bg-gradient-main shadow-main relative overflow-hidden
-          "
+          className="h-full bg-gradient-main rounded-xl shadow-main relative overflow-hidden"
         >
-          {/* ⭐ Shine Sweep */}
+          {/* Shine effect */}
           <motion.div
             className="absolute top-0 left-0 h-full w-10 bg-white/30 blur-md"
             animate={{ x: ["-20%", "120%"] }}
@@ -64,7 +56,7 @@ export default function XPBar({ xp = 0, goal = 100 }) {
             }}
           />
 
-          {/* 🌟 XP Pulse Glow (based on percent) */}
+          {/* XP glow pulse */}
           <motion.div
             className="absolute inset-0 bg-accent2/40 blur-md"
             animate={{
@@ -78,7 +70,7 @@ export default function XPBar({ xp = 0, goal = 100 }) {
         </motion.div>
       </div>
 
-      {/* 📈 Percent text on top (optional aesthetic) */}
+      {/* Percent text */}
       {/* <motion.span
         animate={{
           opacity: [1, 0.6, 1],
