@@ -1,0 +1,46 @@
+/* DARK THEME (Default) */
+:root {
+    --color-primary: #41AEA9;        /* Teal Blue – main action color */
+  --color-secondary: #A6F6F1;      /* Soft Aqua – secondary buttons */
+  
+    --color-accent1: #E8FFFF;        /* Very light aqua – highlights/glow */
+    --color-accent2: #A6F6F1;        /* Reuse as subtle accent */
+    --color-accent3: #41AEA9;        /* Stronger accent shade */
+  
+    --color-bg: #0B0F19;
+    --color-panel: #141B2D;
+    --color-softGlow: #E8FFFF;
+  
+    --color-textPrimary: #E8FFFF;    /* High-contrast text */
+    --color-textSecondary: #A6F6F1;
+    --color-headerHighlight: #A6F6F1; /* Soft bright aqua */
+  }
+  
+  /* LIGHT THEME */
+  .light {
+    --color-bg: #F7FAFC;
+    --color-panel: #FFFFFF;
+    --color-softGlow: #D9EFFF;
+  
+    --color-textPrimary: #0B0F19;
+    --color-textSecondary: #4A5568;
+  
+    --color-headerHighlight: #32928d;
+  }
+
+  /* gradient */
+.bg-gradient-main {
+    background: linear-gradient(135deg, #41AEA9 0%, #A6F6F1 100%);
+  }
+  
+  /* soft aqua glow */
+  .shadow-main {
+    box-shadow: 0 0 12px rgba(166, 246, 241, 0.6);
+  }
+  
+  /* optional stronger glow */
+  .shadow-main-strong {
+    box-shadow: 0 0 20px rgba(65, 174, 169, 0.7);
+  }
+  
+  
