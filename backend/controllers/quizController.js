@@ -1,7 +1,7 @@
 import Quiz from "../models/quiz.js";
 import Lesson from "../models/lesson.js";
 import User from "../models/user.js";
-import Progress from "../models/progress.js";
+// import Progress from "../models/progress.js";
 
 // 🟩 Get quiz for lesson
 export const getQuiz = async (req, res) => {
@@ -72,27 +72,32 @@ export const submitQuiz = async (req, res) => {
       xpEarned = 50; // high score
     } else if (percent >= 60) {
       xpEarned = 30; // pass bonus
+    }else if (percent >= 0) {
+      xpEarned = 10
     } else {
       xpEarned = 0; // fail → no XP
     }
 
+    // ⭐ XP DIFFERENCE LOGIC — Prevent double reward
+const previousBestXp = user.quizXp.get(lessonId) || 0;
+
+// Award only the difference
+const xpDifference = Math.max(0, xpEarned - previousBestXp);
+
+// Add XP only if improved
+user.xp += xpDifference;
+
+// Update stored best XP for this lesson
+user.quizXp.set(lessonId, xpEarned);
+
+
     // ---------------------------------------
     // BLOCK XP IF USER ALREADY COMPLETED QUIZ
     // ---------------------------------------
-    const progressRecord = await Progress.findOne({ userId, lessonId });
-    const alreadyDone = !!progressRecord;
-
-    // ⭐ XP logic (only first time)
-    if (!alreadyDone) {
-      user.xp += xpEarned;
-
-      await Progress.create({
-        userId,
-        lessonId,
-        completed: true,
-        completedAt: new Date(),
-      });
-    }
+    // Check if quiz already completed
+const alreadyDone = user.progress.completedQuizzes.some(
+  id => id.toString() === lessonId
+);
 
     // ─────────────── STREAK LOGIC ───────────────
     const today = new Date().toDateString();

@@ -6,6 +6,7 @@ const UserSchema = new mongoose.Schema({
   password: String,
   role: { type: String, default: "student" },
   xp: { type: Number, default: 0 },
+  quizXp: { type: Map, of: Number, default: {} },
   accuracy: {
     type: Number,
     default: 0, // percentage
