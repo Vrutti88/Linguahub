@@ -1,6 +1,7 @@
 import Quiz from "../models/quiz.js";
 import Lesson from "../models/lesson.js";
 import User from "../models/user.js";
+import Progress from "../models/progress.js";
 
 // 🟩 Get quiz for lesson
 export const getQuiz = async (req, res) => {
@@ -78,51 +79,89 @@ export const submitQuiz = async (req, res) => {
     // ---------------------------------------
     // BLOCK XP IF USER ALREADY COMPLETED QUIZ
     // ---------------------------------------
-    const alreadyDone = user.progress.completedLessons.includes(lessonId);
+    const progressRecord = await Progress.findOne({ userId, lessonId });
+    const alreadyDone = !!progressRecord;
 
-    if (alreadyDone) {
-      xpEarned = 0; // 🚫 prevent XP farming
-    } else {
-      // first time → award XP + mark lesson complete
-      user.progress.completedLessons.push(lessonId);
+    // ⭐ XP logic (only first time)
+    if (!alreadyDone) {
       user.xp += xpEarned;
-      await user.save();
+
+      await Progress.create({
+        userId,
+        lessonId,
+        completed: true,
+        completedAt: new Date(),
+      });
     }
 
     // ─────────────── STREAK LOGIC ───────────────
-const today = new Date().toDateString();
-const last = user.lastActiveDate;
+    const today = new Date().toDateString();
+    const last = user.lastActiveDate;
 
-if (!last) {
-  user.streak = 1;
-} else if (last === today) {
-  // already counted today
-} else {
-  const lastDate = new Date(last);
-  const todayDate = new Date(today);
-
-  // If lastActiveDate is in the FUTURE → reset
-  if (lastDate > todayDate) {
-    user.streak = 1;
-  } else {
-    const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-
-    const yesterdayStr = yesterday.toDateString();
-
-    if (last === yesterdayStr) {
-      user.streak += 1;
-    } else {
+    if (!last) {
       user.streak = 1;
+    } else if (last === today) {
+      // already counted today
+    } else {
+      const lastDate = new Date(last);
+      const todayDate = new Date(today);
+
+      // If lastActiveDate is in the FUTURE → reset
+      if (lastDate > todayDate) {
+        user.streak = 1;
+      } else {
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+
+        const yesterdayStr = yesterday.toDateString();
+
+        if (last === yesterdayStr) {
+          user.streak += 1;
+        } else {
+          user.streak = 1;
+        }
+      }
     }
-  }
+
+    // ⭐ QUIZ COMPLETION TRACKING (store in user.progress.completedQuizzes)
+if (!user.progress.completedQuizzes.some(id => id.toString() === lessonId)) {
+  user.progress.completedQuizzes.push(lessonId);
 }
 
-user.lastActiveDate = today;
-await user.save();
 
-    // ─────────────────────────────────────────────
+    // ─────────────── ACCURACY LOGIC (Correct Per-Lesson Tracking) ───────────────
 
+    // ensure fields exist
+    user.correctAnswers = user.correctAnswers || 0;
+    user.totalQuestions = user.totalQuestions || 0;
+    user.quizScores = user.quizScores || new Map();
+
+    const quizQuestionCount = quiz.questions.length;
+
+    // Get previous score for this quiz (if any)
+    const previousScore = user.quizScores.get(lessonId) || 0;
+
+    // If first attempt → add to totalQuestions
+    if (!user.quizScores.has(lessonId)) {
+      user.totalQuestions += quizQuestionCount;
+    }
+
+    // Update correctAnswers (remove previous and add new)
+    user.correctAnswers = user.correctAnswers - previousScore + score;
+
+    // Save new score for this lesson
+    user.quizScores.set(lessonId, score);
+
+    // Calculate accuracy
+    user.accuracy = Math.round((user.correctAnswers / user.totalQuestions) * 100);
+
+    // clamp accuracy between 0–100
+    user.accuracy = Math.max(0, Math.min(user.accuracy, 100));
+
+    // ─────────────────────────────────────────────────────────────────────
+
+    user.lastActiveDate = today;
+    await user.save();
 
     return res.json({
       score,
@@ -130,7 +169,7 @@ await user.save();
       percent,
       xpEarned,
       totalXP: user.xp,
-      streak: user.streak, 
+      streak: user.streak,
       alreadyCompleted: alreadyDone,
     });
 

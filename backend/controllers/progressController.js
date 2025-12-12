@@ -1,24 +1,22 @@
-import Progress from "../models/progress.js";
-
-// ⭐ MARK LESSON COMPLETED
+// ⭐ MARK LESSON COMPLETED → stored inside User.progress.completedLessons
 export const markLessonComplete = async (req, res) => {
   try {
+    const user = req.user;
     const { lessonId } = req.body;
-    const userId = req.user.id;
 
     if (!lessonId) {
       return res.status(400).json({ msg: "lessonId is required" });
     }
 
-    const progress = await Progress.findOneAndUpdate(
-      { userId, lessonId },
-      { completed: true, completedAt: new Date() },
-      { upsert: true, new: true }
-    );
+    // Only add if not already completed
+    if (!user.progress.completedLessons.map(id => id.toString()).includes(lessonId)) {
+      user.progress.completedLessons.push(lessonId);
+      await user.save();
+    }
 
     res.json({
-      msg: "Lesson completed!",
-      progress,
+      msg: "Lesson marked as completed!",
+      completedLessons: user.progress.completedLessons
     });
   } catch (err) {
     console.error(err);
@@ -26,18 +24,19 @@ export const markLessonComplete = async (req, res) => {
   }
 };
 
-// ⭐ GET COMPLETION STATUS OF A LESSON
+// ⭐ GET COMPLETION STATUS OF A LESSON → read from User.progress.completedLessons
 export const getLessonProgress = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const user = req.user;
     const lessonId = req.params.lessonId;
 
-    const progress = await Progress.findOne({ userId, lessonId });
+    const completed = user.progress.completedLessons
+      .map(id => id.toString())
+      .includes(lessonId);
 
-    res.json({
-      completed: progress?.completed || false,
-    });
+    res.json({ completed });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ msg: "Failed to fetch progress" });
   }
 };

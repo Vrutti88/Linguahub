@@ -6,6 +6,23 @@ const UserSchema = new mongoose.Schema({
   password: String,
   role: { type: String, default: "student" },
   xp: { type: Number, default: 0 },
+  accuracy: {
+    type: Number,
+    default: 0, // percentage
+  },
+  totalQuestions: {
+    type: Number,
+    default: 0
+  },
+  correctAnswers: {
+    type: Number,
+    default: 0
+  },
+  quizScores: {
+    type: Map,
+    of: Number,
+    default: {}
+  },  
 
   // 🔥 Duolingo-style onboarding fields
   onboardingCompleted: {
@@ -28,7 +45,10 @@ const UserSchema = new mongoose.Schema({
     completedLessons: [
       { type: mongoose.Schema.Types.ObjectId, ref: "Lesson" }
     ],
-  },
+    completedQuizzes: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "Lesson" } // NEW
+    ]
+  },  
 },
 {timestamps:true}
 );

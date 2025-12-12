@@ -86,18 +86,20 @@ export default function LessonView() {
 
   const markCompleted = async () => {
     try {
-      await api.post(
-        "/progress/complete",
+      await api.put(
+        "/user/progress",
         { lessonId: lesson._id },
         { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
       );
+  
       setCompleted(true);
       alert("🎉 Lesson Completed! Quiz unlocked.");
+  
     } catch (err) {
       console.error(err);
       alert("Failed to save lesson progress.");
     }
-  };
+  };  
 
   const goToQuiz = () => navigate(`/quiz/${lesson._id}`);
 

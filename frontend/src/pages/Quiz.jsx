@@ -133,7 +133,7 @@ if (res.data.streak !== undefined) {
 }
 
 
-      await api.post("/progress/complete", { lessonId });
+      // await api.post("/progress/complete", { lessonId });
 
       confetti({
         zIndex: 9999,
