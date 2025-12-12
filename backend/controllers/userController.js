@@ -17,13 +17,27 @@ export const getProfile = (req, res) => {
         return res.status(400).json({ msg: "lessonId is required" });
       }
   
-      // Add lesson only once
-      if (!req.user.progress.completedLessons.includes(lessonId)) {
-        req.user.progress.completedLessons.push(lessonId);
-        await req.user.save();
-      }
+      const user = await User.findById(req.user._id);
+
+    let xpGained = 0;
+
+    // ⭐ Only add XP the FIRST time a lesson is completed
+    if (!user.progress.completedLessons.includes(lessonId)) {
+      user.progress.completedLessons.push(lessonId);
+
+      // ⭐ Add XP
+      user.lessonXp.set(lessonId, 20);
+      xpGained = 20;
+    }
+
+    await user.save();
   
-      res.json({ msg: "Lesson progress updated" });
+    res.json({
+      msg: "Lesson progress updated",
+      xpGained,
+      totalXp: user.lessonXp,
+      completedLessons: user.progress.completedLessons
+    });
   
     } catch (err) {
       console.error(err);

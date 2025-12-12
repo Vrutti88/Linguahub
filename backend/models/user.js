@@ -6,6 +6,7 @@ const UserSchema = new mongoose.Schema({
   password: String,
   role: { type: String, default: "student" },
   xp: { type: Number, default: 0 },
+  lessonXp: { type: Map, of: Number, default: {} },
   quizXp: { type: Map, of: Number, default: {} },
   accuracy: {
     type: Number,
@@ -53,5 +54,19 @@ const UserSchema = new mongoose.Schema({
 },
 {timestamps:true}
 );
+
+UserSchema.pre("save", async function () {
+  let total = 0;
+
+  if (this.lessonXp) {
+    for (let v of this.lessonXp.values()) total += v;
+  }
+
+  if (this.quizXp) {
+    for (let v of this.quizXp.values()) total += v;
+  }
+
+  this.xp = total;
+});
 
 export default mongoose.model("User", UserSchema);
