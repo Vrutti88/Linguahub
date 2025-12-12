@@ -29,16 +29,16 @@ export default function Lessons() {
   };
 
   return (
-    <div className="min-h-screen px-4 py-6 text-textPrimary relative">
+    <div className="h-full px-4 py-6 text-textPrimary relative">
 
       {/* ✨ Ambient floating particles */}
-      <motion.div
+      {/* <motion.div
         className="absolute top-6 right-10 text-2xl opacity-20 pointer-events-none"
         animate={{ y: [0, -8, 0], rotate: [0, 8, -8, 0] }}
         transition={{ repeat: Infinity, duration: 4 }}
       >
         ✨
-      </motion.div>
+      </motion.div> */}
 
       <div className="flex items-center justify-between mb-6">
         <div>
