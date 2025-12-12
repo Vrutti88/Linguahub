@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../api/client.js";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import confetti from "canvas-confetti";
 
 export default function Quiz() {
@@ -18,6 +18,7 @@ export default function Quiz() {
   const [answers, setAnswers] = useState([]);
   const [submitting, setSubmitting] = useState(false);
   const [result, setResult] = useState(null);
+  const [xpPopup, setXpPopup] = useState(null);
 
   // -------------------------------------------------
   // Load lesson + quiz
@@ -122,19 +123,28 @@ export default function Quiz() {
       if (!window.confirm("Some questions are unanswered. Submit anyway?"))
         return;
     }
-
+  
     setSubmitting(true);
+  
     try {
       const res = await api.post("/quiz/submit", { lessonId, answers });
-      setResult(res.data);
-      // Update user streak in navbar immediately
-if (res.data.streak !== undefined) {
-  localStorage.setItem("streak", res.data.streak);
-}
-
-
-      // await api.post("/progress/complete", { lessonId });
-
+      const gained = res.data.xpEarned || 0;
+  
+      // ⭐ SHOW XP POPUP
+      setXpPopup(gained);
+      setTimeout(() => setXpPopup(null), 2000);
+  
+      // ⭐ Delay result screen so popup is visible
+      setTimeout(() => {
+        setResult(res.data);
+      }, 900);
+  
+      // ⭐ Delay alert so animation STILL shows
+      setTimeout(() => {
+        alert("🎉 Quiz Completed!");
+      }, 1000);
+  
+      // Confetti
       confetti({
         zIndex: 9999,
         particleCount: 150,
@@ -142,14 +152,14 @@ if (res.data.streak !== undefined) {
         startVelocity: 40,
         origin: { y: 0.6 },
       });
-
+  
     } catch (err) {
       console.error(err);
       alert("Failed to submit quiz.");
     } finally {
       setSubmitting(false);
     }
-  };
+  };  
 
   // -------------------------------------------------
   // RESULT SCREEN
@@ -184,9 +194,8 @@ if (res.data.streak !== undefined) {
                 initial={{ width: 0 }}
                 animate={{ width: `${percent}%` }}
                 transition={{ duration: 0.8 }}
-                className={`h-full rounded-full ${
-                  success ? "bg-accent2" : "bg-accent3"
-                }`}
+                className={`h-full rounded-full ${success ? "bg-accent2" : "bg-accent3"
+                  }`}
               />
             </div>
           </div>
@@ -219,16 +228,37 @@ if (res.data.streak !== undefined) {
   // MAIN QUIZ PAGE
   // -------------------------------------------------
   return (
+    <>
+    <AnimatePresence>
+      {xpPopup && (
+        <motion.div
+          key={xpPopup}
+          initial={{ opacity: 0, y: 20, scale: 0.8 }}
+          animate={{ opacity: 1, y: -40, scale: 1 }}
+          exit={{ opacity: 0, y: -80, scale: 0.8 }}
+          transition={{ duration: 0.8 }}
+          className="
+            fixed top-24 left-1/2 -translate-x-1/2
+            z-[999999999]   /* beyond EVERYTHING */
+            pointer-events-none
+            px-4 py-2 rounded-xl bg-green-500 text-white 
+            font-bold text-lg shadow-2xl
+          "
+        >
+          +{xpPopup} XP
+        </motion.div>
+      )}
+    </AnimatePresence>
     <div className="space-y-6 text-textPrimary relative">
-      
+
       {/* Floating Sparkle */}
-      <motion.div
+      {/* <motion.div
         className="absolute right-4 top-0 text-xl opacity-20"
         animate={{ y: [0, -6, 0] }}
         transition={{ duration: 4, repeat: Infinity }}
       >
         ✨
-      </motion.div>
+      </motion.div> */}
 
       {/* HEADER */}
       <motion.div
@@ -291,10 +321,9 @@ if (res.data.streak !== undefined) {
                   onClick={() => setAnswer(idx)}
                   className={`
                     px-4 py-3 rounded-full text-sm font-medium transition-all shadow-md border
-                    ${
-                      selected
-                        ? "bg-accent3 text-white border-accent3 shadow-glow scale-[1.03]"
-                        : "bg-bg text-textPrimary border-accent2/30 hover:bg-panel hover:shadow-glow"
+                    ${selected
+                      ? "bg-accent3 text-white border-accent3 shadow-glow scale-[1.03]"
+                      : "bg-bg text-textPrimary border-accent2/30 hover:bg-panel hover:shadow-glow"
                     }
                   `}
                 >
@@ -325,10 +354,9 @@ if (res.data.streak !== undefined) {
           onClick={prevQuestion}
           className={`
             px-4 py-2 rounded-xl text-xs border shadow transition-all
-            ${
-              currentIdx === 0
-                ? "text-textSecondary bg-bg border-accent2/20 cursor-not-allowed"
-                : "bg-bg text-textPrimary border-accent2/30 hover:bg-accent3 hover:text-bg shadow-glow"
+            ${currentIdx === 0
+              ? "text-textSecondary bg-bg border-accent2/20 cursor-not-allowed"
+              : "bg-bg text-textPrimary border-accent2/30 hover:bg-accent3 hover:text-bg shadow-glow"
             }
           `}
         >
@@ -354,5 +382,6 @@ if (res.data.streak !== undefined) {
         )}
       </div>
     </div>
+    </>
   );
 }

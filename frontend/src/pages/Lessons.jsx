@@ -109,10 +109,10 @@ export default function Lessons() {
                   absolute top-3 right-3 text-[10px] px-2 py-1 
                   rounded-full bg-gradient-main text-textPrimary shadow-glow
                 "
-                animate={{ scale: [1, 1.15, 1] }}
+                animate={{ scale: [1, 1.05, 1] }}
                 transition={{ repeat: Infinity, duration: 2 }}
               >
-                ⭐ {lesson.estimatedTime || "5 min"}
+                ⏱ {lesson.estimatedTime || "5 min"}
               </motion.div>
 
               {/* Title */}

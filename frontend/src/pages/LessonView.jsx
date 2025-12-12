@@ -12,6 +12,7 @@ export default function LessonView() {
   const [index, setIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [completed, setCompleted] = useState(false);
+  const [xpPopup, setXpPopup] = useState(null);
 
   const isYouTube = (url) => {
     return url.includes("youtube.com") || url.includes("youtu.be");
@@ -112,7 +113,12 @@ export default function LessonView() {
       );
 
       setCompleted(true);
+      // 🎉 XP Gained Animation
+      setXpPopup(+20); // animation shows +20 XP
+      setTimeout(() => setXpPopup(null), 2000); // remove after 2s
+
       alert("🎉 Lesson Completed! Quiz unlocked.");
+
 
     } catch (err) {
       console.error(err);
@@ -124,6 +130,22 @@ export default function LessonView() {
 
   return (
     <div className="min-h-screen flex justify-center px-4 py-8 relative">
+
+<AnimatePresence>
+  {xpPopup && (
+    <motion.div
+      key="xp-popup"
+      initial={{ opacity: 0, y: 20, scale: 0.8 }}
+      animate={{ opacity: 1, y: -40, scale: 1 }}
+      exit={{ opacity: 0, y: -80, scale: 0.8 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+      className="fixed top-20 left-1/2 -translate-x-1/2 z-[9999]
+                 px-4 py-2 rounded-xl bg-green-500 text-white font-bold text-lg shadow-2xl"
+    >
+      +{xpPopup} XP
+    </motion.div>
+  )}
+</AnimatePresence>
 
       {/* ✨ Floating Particles */}
       {/* <motion.div
