@@ -26,7 +26,7 @@ export default function Dashboard() {
       >
         <div>
           <h1 className="text-3xl font-extrabold text-headerHighlight drop-shadow-glow flex items-center gap-2">
-            Hi {user?.name || "Linguist"} 
+            Hi {user?.name || "Linguist"}
             <motion.span
               animate={{ scale: [1, 1.2, 1] }}
               transition={{ duration: 1.5, repeat: Infinity }}
@@ -155,7 +155,7 @@ export default function Dashboard() {
       {/* ============================
           ACHIEVEMENTS (Students Only)
       ================================= */}
-      {role === "student" && (
+      {/* {role === "student" && (
         <motion.div
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
@@ -169,7 +169,7 @@ export default function Dashboard() {
             transition={{ duration: 3, repeat: Infinity }}
           >
             🌟
-          </motion.div> */}
+          </motion.div>
 
           <h3 className="font-bold text-headerHighlight mb-2 flex items-center gap-1">
             Achievement badges (coming soon)
@@ -185,7 +185,7 @@ export default function Dashboard() {
             Earn badges for streaks, XP milestones and completed paths ✨
           </p>
         </motion.div>
-      )}
+      )} */}
 
     </div>
   );
