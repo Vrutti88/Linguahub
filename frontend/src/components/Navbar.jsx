@@ -6,7 +6,10 @@ import ThemeToggle from "../components/ThemeToggle";
 import { motion } from "framer-motion";
 
 export default function Navbar({ user }) {
-  const [streak, setStreak] = useState(0);
+  const [streak, setStreak] = useState(
+    Number(localStorage.getItem("streak")) || 0
+  );
+  
   const role = user?.role || localStorage.getItem("role");
 
   useEffect(() => {
@@ -15,6 +18,7 @@ export default function Navbar({ user }) {
         try {
           const res = await api.get("/user/streak");
           setStreak(res.data.streak || 0);
+          localStorage.setItem("streak", res.data.streak || 0);
         } catch (err) {
           console.error(err);
         }
@@ -22,6 +26,7 @@ export default function Navbar({ user }) {
       fetchStreak();
     }
   }, [role]);
+  
 
   return (
     <motion.header
@@ -107,6 +112,7 @@ export default function Navbar({ user }) {
             <StreakWidget streak={streak} />
           </motion.div>
         )}
+
 
         {/* THEME TOGGLE */}
         <motion.div whileHover={{ scale: 1.07 }}>

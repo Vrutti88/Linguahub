@@ -127,6 +127,11 @@ export default function Quiz() {
     try {
       const res = await api.post("/quiz/submit", { lessonId, answers });
       setResult(res.data);
+      // Update user streak in navbar immediately
+if (res.data.streak !== undefined) {
+  localStorage.setItem("streak", res.data.streak);
+}
+
 
       await api.post("/progress/complete", { lessonId });
 

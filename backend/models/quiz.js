@@ -31,7 +31,9 @@ const QuestionSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
-});
+},
+  { timestamps: true }
+);
 
 const QuizSchema = new mongoose.Schema(
   {

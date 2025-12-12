@@ -22,12 +22,15 @@ const UserSchema = new mongoose.Schema({
 
   // 🔥 Gamification fields you already had
   streak: { type: Number, default: 0 },
+  lastActiveDate: { type: String, default: null },
 
   progress: {
     completedLessons: [
       { type: mongoose.Schema.Types.ObjectId, ref: "Lesson" }
     ],
   },
-});
+},
+{timestamps:true}
+);
 
 export default mongoose.model("User", UserSchema);

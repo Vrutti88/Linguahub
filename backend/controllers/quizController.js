@@ -89,12 +89,48 @@ export const submitQuiz = async (req, res) => {
       await user.save();
     }
 
+    // ─────────────── STREAK LOGIC ───────────────
+const today = new Date().toDateString();
+const last = user.lastActiveDate;
+
+if (!last) {
+  user.streak = 1;
+} else if (last === today) {
+  // already counted today
+} else {
+  const lastDate = new Date(last);
+  const todayDate = new Date(today);
+
+  // If lastActiveDate is in the FUTURE → reset
+  if (lastDate > todayDate) {
+    user.streak = 1;
+  } else {
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+
+    const yesterdayStr = yesterday.toDateString();
+
+    if (last === yesterdayStr) {
+      user.streak += 1;
+    } else {
+      user.streak = 1;
+    }
+  }
+}
+
+user.lastActiveDate = today;
+await user.save();
+
+    // ─────────────────────────────────────────────
+
+
     return res.json({
       score,
       total: quiz.questions.length,
       percent,
       xpEarned,
       totalXP: user.xp,
+      streak: user.streak, 
       alreadyCompleted: alreadyDone,
     });
 

@@ -77,13 +77,13 @@ export default function LessonOverview() {
     <div className="min-h-screen px-4 py-6 flex justify-center relative">
 
       {/* ✨ Ambient floating sparkles */}
-      <motion.div
+      {/* <motion.div
         className="absolute top-10 right-12 text-2xl opacity-20 pointer-events-none"
         animate={{ y: [0, -8, 0], rotate: [0, 10, -10, 0] }}
         transition={{ duration: 4, repeat: Infinity }}
       >
         ✨
-      </motion.div>
+      </motion.div> */}
 
       {/* =========================
           MAIN PANEL
@@ -98,11 +98,11 @@ export default function LessonOverview() {
         "
       >
         {/* Glow Background */}
-        <motion.div
+        {/* <motion.div
           className="absolute -top-32 -right-32 w-80 h-80 bg-gradient-main opacity-20 blur-3xl pointer-events-none"
           animate={{ opacity: [0.15, 0.3, 0.15] }}
           transition={{ duration: 4, repeat: Infinity }}
-        />
+        /> */}
 
         {/* HEADER */}
         <div className="flex justify-between items-start mb-5 relative z-10">
