@@ -42,6 +42,11 @@ const LessonSchema = new mongoose.Schema(
       default: "beginner",
     },
 
+    estimatedTime: {
+      type: String,
+      default: "",
+    },    
+
     image: {
       type: String,
       default: "",

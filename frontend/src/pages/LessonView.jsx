@@ -13,6 +13,25 @@ export default function LessonView() {
   const [loading, setLoading] = useState(true);
   const [completed, setCompleted] = useState(false);
 
+  const isYouTube = (url) => {
+    return url.includes("youtube.com") || url.includes("youtu.be");
+  };
+
+  // 🔹 Convert YouTube URL -> embed format
+  const toYouTubeEmbed = (url) => {
+    try {
+      if (url.includes("youtu.be")) {
+        const id = url.split("youtu.be/")[1];
+        return `https://www.youtube.com/embed/${id}`;
+      }
+      const params = new URL(url).searchParams;
+      const id = params.get("v");
+      return `https://www.youtube.com/embed/${id}`;
+    } catch {
+      return url;
+    }
+  };
+
   // ---------------------------------------
   // Load Lesson + Progress
   // ---------------------------------------
@@ -91,15 +110,15 @@ export default function LessonView() {
         { lessonId: lesson._id },
         { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
       );
-  
+
       setCompleted(true);
       alert("🎉 Lesson Completed! Quiz unlocked.");
-  
+
     } catch (err) {
       console.error(err);
       alert("Failed to save lesson progress.");
     }
-  };  
+  };
 
   const goToQuiz = () => navigate(`/quiz/${lesson._id}`);
 
@@ -107,13 +126,13 @@ export default function LessonView() {
     <div className="min-h-screen flex justify-center px-4 py-8 relative">
 
       {/* ✨ Floating Particles */}
-      <motion.div
+      {/* <motion.div
         className="absolute top-10 right-10 text-2xl opacity-20 pointer-events-none"
         animate={{ y: [0, -8, 0], rotate: [0, 8, -8, 0] }}
         transition={{ repeat: Infinity, duration: 4 }}
       >
         ✨
-      </motion.div>
+      </motion.div> */}
 
       {/* Panel */}
       <motion.div
@@ -126,11 +145,11 @@ export default function LessonView() {
         "
       >
         {/* Glow */}
-        <motion.div
+        {/* <motion.div
           className="absolute -top-32 -right-32 w-72 h-72 bg-gradient-main opacity-20 blur-3xl"
           animate={{ opacity: [0.15, 0.3, 0.15] }}
           transition={{ duration: 4, repeat: Infinity }}
-        />
+        /> */}
 
         {/* HEADER */}
         <div className="flex items-center justify-between mb-4 relative z-10">
@@ -265,12 +284,26 @@ export default function LessonView() {
                 transition={{ delay: 0.3 }}
                 className="mt-4"
               >
-                <video
-                  controls
-                  className="w-full rounded-xl border border-accent2/30 shadow-lg"
-                >
-                  <source src={current.videoUrl} />
-                </video>
+                {isYouTube(current.videoUrl) ? (
+                  <div className="mt-2">
+                    <p className="text-xs font-semibold text-accent1 mb-1">Video:</p>
+                    <iframe
+                      className="w-full aspect-video rounded-xl border border-accent2/30 shadow-lg"
+                      src={toYouTubeEmbed(current.videoUrl)}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  </div>
+                ) : (
+                  <div className="mt-2">
+                    <video
+                      controls
+                      className="w-full rounded-xl border border-accent2/30 shadow-lg"
+                    >
+                      <source src={current.videoUrl} />
+                    </video>
+                  </div>
+                )}
               </motion.div>
             )}
 

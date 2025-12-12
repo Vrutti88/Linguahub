@@ -30,6 +30,27 @@ export default function ManageLessons() {
 
     const [viewingQuiz, setViewingQuiz] = useState(null);
 
+    // 🔹 Detect if URL is a YouTube link
+    const isYouTube = (url) => {
+        return url.includes("youtube.com") || url.includes("youtu.be");
+    };
+
+    // 🔹 Convert YouTube URL -> embed format
+    const toYouTubeEmbed = (url) => {
+        try {
+            if (url.includes("youtu.be")) {
+                const id = url.split("youtu.be/")[1];
+                return `https://www.youtube.com/embed/${id}`;
+            }
+            const params = new URL(url).searchParams;
+            const id = params.get("v");
+            return `https://www.youtube.com/embed/${id}`;
+        } catch {
+            return url;
+        }
+    };
+
+
     const loadLessonQuizzes = async (lessonId) => {
         try {
             const res = await api.get("/teacher/quizzes");
@@ -48,6 +69,8 @@ export default function ManageLessons() {
         description: "",
         level: "beginner",
         language: "",
+        estimatedTime: "",
+        image:"",
         contents: [],
     });
 
@@ -84,6 +107,8 @@ export default function ManageLessons() {
             description: lesson.description || "",
             level: lesson.level || "beginner",
             language: lesson.language || "",
+            estimatedTime: lesson.estimatedTime || "",
+            image: lesson.image || "",
             contents: Array.isArray(lesson.contents) ? lesson.contents : [],
         });
     };
@@ -188,17 +213,38 @@ export default function ManageLessons() {
                         />
                     </div>
 
+                    <div className="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <label className="text-xs text-textSecondary">Level</label>
+                            <select
+                                value={editData.level}
+                                onChange={(e) => updateField("level", e.target.value)}
+                                className="w-full px-3 py-2 bg-bg border border-accent2/40 rounded-xl"
+                            >
+                                <option value="beginner">Beginner</option>
+                                <option value="intermediate">Intermediate</option>
+                                <option value="advanced">Advanced</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label className="text-xs text-textSecondary">Estimated Time</label>
+                            <input
+                                value={editData.estimatedTime}
+                                onChange={(e) => updateField("estimatedTime", e.target.value)}
+                                className="w-full px-3 py-2 bg-bg border border-accent2/40 rounded-xl"
+                                placeholder="e.g., 5 minutes"
+                            />
+                        </div>
+                    </div>
+
                     <div>
-                        <label className="text-xs text-textSecondary">Level</label>
-                        <select
-                            value={editData.level}
-                            onChange={(e) => updateField("level", e.target.value)}
-                            className="w-full px-3 py-2 bg-bg border border-accent2/40 rounded-xl"
-                        >
-                            <option value="beginner">Beginner</option>
-                            <option value="intermediate">Intermediate</option>
-                            <option value="advanced">Advanced</option>
-                        </select>
+                        <label className="text-textSecondary text-xs">Thumbnail URL</label>
+                        <input
+                            value={editData.image}
+                            onChange={(e) => updateField("image", e.target.value)}
+                            className="w-full mt-1 px-3 py-2 bg-bg border border-accent2/40 rounded-xl text-textPrimary"
+                            placeholder="Image URL"
+                        />
                     </div>
 
                 </div>
@@ -393,19 +439,39 @@ export default function ManageLessons() {
                                     )}
 
                                     {/* Audio */}
-                                    {item.audioUrl && (
+                                    {isYouTube(item.audioUrl) ? (
                                         <div className="mt-2">
-                                            <p className="text-xs font-semibold text-accent1 mb-1">Audio:</p>
+                                            <p className="text-xs font-semibold text-accent1 mb-1">Audio (YouTube):</p>
+
+                                            <iframe
+                                                src={toYouTubeEmbed(item.audioUrl)}
+                                                className="w-full h-14 rounded-xl border border-accent2/30 shadow-lg"
+                                                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                                allowFullScreen
+                                            />
+                                        </div>
+                                    ) : (
+                                        <div className="mt-2">
                                             <audio controls className="w-full">
                                                 <source src={item.audioUrl} />
                                             </audio>
                                         </div>
                                     )}
 
+
                                     {/* Video */}
-                                    {item.videoUrl && (
+                                    {isYouTube(item.videoUrl) ? (
                                         <div className="mt-2">
                                             <p className="text-xs font-semibold text-accent1 mb-1">Video:</p>
+                                            <iframe
+                                                className="w-full aspect-video rounded-xl border border-accent2/30 shadow-lg"
+                                                src={toYouTubeEmbed(item.videoUrl)}
+                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                allowFullScreen
+                                            />
+                                        </div>
+                                    ) : (
+                                        <div className="mt-2">
                                             <video
                                                 controls
                                                 className="w-full rounded-xl border border-accent2/30 shadow-lg"
