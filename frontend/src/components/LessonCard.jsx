@@ -85,7 +85,7 @@ export default function LessonCard({
                 : "un"
             }.png`}
             alt={lesson.language}
-            className="w-6 h-4 rounded shadow"
+            className="w-6 h-4 rounded shadow shadow-glow border border-accent2/40"
           />
 
           <span className="text-xs font-semibold text-textPrimary tracking-wide uppercase">

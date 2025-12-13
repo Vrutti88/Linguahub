@@ -10,6 +10,7 @@ import LessonOverview from "./pages/LessonOverview.jsx";
 import Quiz from "./pages/Quiz.jsx";
 import Leaderboard from "./pages/Leaderboard.jsx";
 import Profile from "./pages/Profile.jsx";
+import EditProfile from "./pages/EditProfile.jsx";
 import OnboardingFlow from "./pages/OnboardingFlow.jsx";
 
 // --- NEW teacher pages ---
@@ -50,6 +51,7 @@ export default function App() {
         <Route path="quiz/:lessonId" element={<Quiz />} />
         <Route path="leaderboard" element={<Leaderboard />} />
         <Route path="profile" element={<Profile />} />
+        <Route path="/profile/edit" element={<EditProfile />} />
 
         {/* TEACHER ROUTES */}
         <Route path="teacher" element={<Dashboard />} />

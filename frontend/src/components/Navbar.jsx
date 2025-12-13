@@ -4,13 +4,16 @@ import { useEffect, useState } from "react";
 import api from "../api/client.js";
 import ThemeToggle from "../components/ThemeToggle";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+import FlagWidget from "../components/FlagWidget";
 
 export default function Navbar({ user }) {
   const [streak, setStreak] = useState(
     Number(localStorage.getItem("streak")) || 0
   );
-  
+
   const role = user?.role || localStorage.getItem("role");
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (role === "student") {
@@ -26,7 +29,7 @@ export default function Navbar({ user }) {
       fetchStreak();
     }
   }, [role]);
-  
+
 
   return (
     <motion.header
@@ -113,6 +116,16 @@ export default function Navbar({ user }) {
           </motion.div>
         )}
 
+        {/* Flag Icon — Students Only */}
+        {role === "student" && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3, delay: 0.2 }}
+          >
+            <FlagWidget language={user?.onboarding?.language} />
+          </motion.div>
+        )}
 
         {/* THEME TOGGLE */}
         <motion.div whileHover={{ scale: 1.07 }}>
@@ -120,24 +133,27 @@ export default function Navbar({ user }) {
         </motion.div>
 
         {/* USER INFO */}
-        <motion.div
-          initial={{ opacity: 0, x: 6 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.3 }}
-          className="hidden md:flex flex-col items-end text-xs"
-        >
-          <span className="font-semibold text-headerHighlight drop-shadow-glow flex items-center gap-1">
-            {user?.name || "Learner"}
-            {/* <motion.span
-              animate={{ rotate: [0, 6, -6, 0] }}
-              transition={{ repeat: Infinity, duration: 2 }}
-              className="opacity-80"
-            >
-              🎧
-            </motion.span> */}
-          </span>
-          <span className="text-textSecondary capitalize">{role}</span>
-        </motion.div>
+        <div className="flex gap-2.5 cursor-pointer" onClick={() => navigate("Profile")}>
+          <motion.div
+            initial={{ opacity: 0, x: 6 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.3 }}
+            className="hidden md:flex flex-col items-end text-xs"
+          >
+            <span className="font-semibold text-headerHighlight drop-shadow-glow flex items-center gap-1">
+              {user?.name || "Learner"}
+
+            </span>
+            <span className="text-textSecondary capitalize">{role}</span>
+          </motion.div>
+          <motion.span
+            animate={{ rotate: [0, 2, -2, 0] }}
+            transition={{ repeat: Infinity, duration: 2 }}
+            className="opacity-80 text-3xl"
+          >
+            👤
+          </motion.span>
+        </div>
       </div>
     </motion.header>
   );

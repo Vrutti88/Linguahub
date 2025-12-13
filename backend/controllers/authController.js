@@ -12,7 +12,7 @@ const generateToken = (user) => {
 };
 
 export const register = async (req, res) => {
-  const { name, email, password, role } = req.body;
+  const { name, email, password, role, age, gender, country, } = req.body;
 
   try {
     const exists = await User.findOne({ email });
@@ -25,6 +25,9 @@ export const register = async (req, res) => {
       email,
       password: hashed,
       role,
+      age,
+      gender,
+      country,
       onboardingCompleted: false,
     });
 
@@ -38,6 +41,9 @@ export const register = async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
+        she:user.age,
+        gender:user.gender,
+        country:user.country
       },
     });
   } catch (err) {

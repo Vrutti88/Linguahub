@@ -1,37 +1,34 @@
 import { useEffect, useState } from "react";
-import { useOutletContext } from "react-router-dom";
 import api from "../api/client.js";
 import StreakWidget from "../components/StreakWidget.jsx";
 import { motion } from "framer-motion";
 
 export default function Profile() {
-  const { user } = useOutletContext();
-  const [streak, setStreak] = useState(0);
+  const [profile, setProfile] = useState(null);
 
   useEffect(() => {
-    const fetchStreak = async () => {
+    const loadProfile = async () => {
       try {
-        const res = await api.get("/user/streak");
-        setStreak(res.data.streak || 0);
+        const res = await api.get("/user/profile");
+        setProfile(res.data);
       } catch (err) {
         console.error(err);
       }
     };
-    fetchStreak();
+    loadProfile();
   }, []);
 
-  return (
-    <div className="space-y-8 relative">
-      
-      {/* ✨ Floating Glow */}
-      {/* <motion.div
-        className="absolute -top-20 -right-20 w-64 h-64 bg-gradient-main blur-3xl opacity-20 pointer-events-none"
-        animate={{ opacity: [0.15, 0.25, 0.15], scale: [1, 1.1, 1] }}
-        transition={{ repeat: Infinity, duration: 6 }}
-      /> */}
+  if (!profile) {
+    return <p className="text-textSecondary">Loading profile...</p>;
+  }
 
-      {/* Page Header */}
-      <motion.div
+  return (
+    <div className="space-y-8 text-textPrimary p-4">
+
+      {/* HEADER */}
+      <div className="flex items-center justify-between">
+        <div>
+        <motion.div
         initial={{ opacity: 0, y: 0 }}
         animate={{ opacity: 1, y: 2 }}
         transition={{ duration: 0.4 }}
@@ -43,81 +40,92 @@ export default function Profile() {
           Your progress and learning stats.
         </p>
       </motion.div>
-
-      {/* User Card */}
-      <motion.div
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        // whileHover={{ scale: 1.02 }}
-        transition={{ duration: 0.4 }}
-        className="flex items-center gap-4 bg-panel border border-accent2/30 
-                   rounded-2xl p-5 shadow-xl hover:shadow-glow"
-      >
-        {/* Animated Avatar Bubble */}
-        <motion.div
-          animate={{ rotate: [0, -6, 6, 0] }}
-          transition={{ duration: 4, repeat: Infinity }}
-          className="w-14 h-14 rounded-2xl bg-gradient-main 
-                     flex items-center justify-center text-3xl shadow-glow"
-        >
-          🌐
-        </motion.div>
-
-        <div>
-          <p className="font-bold text-textPrimary text-sm">
-            {user?.name || "Learner"}
-          </p>
-          <p className="text-xs text-textSecondary">{user?.email}</p>
-          <p className="text-xs text-textSecondary capitalize">
-            Role: {user?.role || "student"}
-          </p>
         </div>
-      </motion.div>
-
-      {/* Streak Widget */}
-      <motion.div
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1, duration: 0.4 }}
-      >
-        <StreakWidget streak={streak} />
-      </motion.div>
-
-      {/* Achievement Card */}
-      {/* <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        // whileHover={{ scale: 1.02 }}
-        transition={{ delay: 0.15, duration: 0.4 }}
-        className="bg-panel border border-accent1/20 rounded-2xl p-5 shadow-xl text-xs hover:shadow-glow"
-      >
-        <p className="font-bold text-headerHighlight mb-2 drop-shadow-glow flex items-center gap-1">
-          🏆 Achievement Badges
-        </p>
-
-        <ul className="list-disc list-inside space-y-1 text-textSecondary">
-          <motion.li
-            animate={{ opacity: [1, 0.4, 1] }}
-            transition={{ duration: 2, repeat: Infinity }}
+        <div>
+          <motion.button
+            onClick={() => navigate("/profile/edit")}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="px-4 py-2 text-xs rounded-xl bg-gradient-main text-textPrimary shadow-glow"
           >
-            🔥 7-day streak badge
-          </motion.li>
+            Edit Profile ✏️
+          </motion.button>
+        </div>
+      </div>
 
-          <motion.li
-            animate={{ opacity: [1, 0.4, 1] }}
-            transition={{ duration: 2.4, repeat: Infinity }}
-          >
-            ⭐ 1000 XP milestone badge
-          </motion.li>
+      {/* MAIN CARD */}
+      <div className="bg-panel rounded-2xl p-6 border border-accent2/20 shadow-xl space-y-6">
 
-          <motion.li
-            animate={{ opacity: [1, 0.4, 1] }}
-            transition={{ duration: 2.8, repeat: Infinity }}
+        {/* TOP ROW */}
+        <div className="flex items-center gap-4">
+          <motion.div
+            animate={{ rotate: [0, -4, 4, 0] }}
+            transition={{ repeat: Infinity, duration: 3 }}
+            className="w-16 h-16 bg-gradient-main rounded-2xl flex items-center justify-center text-3xl shadow-glow"
           >
-            🌍 First language completed badge
-          </motion.li>
-        </ul>
-      </motion.div> */}
+            🌐
+          </motion.div>
+
+          <div>
+            <p className="font-semibold text-lg">{profile.name}</p>
+            <p className="text-xs text-textSecondary">{profile.email}</p>
+            <p className="text-xs text-textSecondary capitalize">{profile.role}</p>
+          </div>
+        </div>
+
+        {/* STREAK */}
+        <StreakWidget streak={profile.streak} />
+
+        {/* QUICK STATS */}
+        <div>
+          <h2 className="text-sm font-semibold text-headerHighlight mb-3">
+            Quick Stats
+          </h2>
+
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <Stat label="XP" value={profile.xp} />
+            <Stat label="Lessons" value={profile.lessonsCompleted} />
+            <Stat label="Quizzes" value={profile.quizzesCompleted} />
+            <Stat label="Accuracy" value={`${profile.accuracy}%`} />
+          </div>
+        </div>
+      </div>
+
+      {/* PERSONAL INFO CARD */}
+      <div className="bg-panel rounded-2xl p-6 border border-accent2/20 shadow-xl space-y-4">
+
+        <h2 className="text-sm font-semibold text-headerHighlight mb-2">
+          Personal Info
+        </h2>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <Info label="Age" value={profile.age} />
+          <Info label="Gender" value={profile.gender} />
+          <Info label="Country" value={profile.country} />
+          <Info label="Daily Goal" value={`${profile?.onboarding?.dailyGoal || 0} min`} />
+          {/* <Info label="Native Language" value={profile.nativeLanguage || "—"} /> */}
+          {/* <Info label="Learning Goal" value={profile.learningGoal || "—"} /> */}
+        </div>
+      </div>
+
+    </div>
+  );
+}
+
+function Stat({ label, value }) {
+  return (
+    <div className="bg-bg rounded-xl p-3 border border-accent2/20 text-center">
+      <p className="text-xs text-textSecondary">{label}</p>
+      <p className="text-sm font-bold">{value}</p>
+    </div>
+  );
+}
+
+function Info({ label, value }) {
+  return (
+    <div className="bg-bg rounded-xl p-3 border border-accent2/20">
+      <p className="text-[11px] text-textSecondary">{label}</p>
+      <p className="text-sm font-semibold">{value || "Not set"}</p>
     </div>
   );
 }

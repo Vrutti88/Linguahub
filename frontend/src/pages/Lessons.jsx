@@ -102,6 +102,11 @@ export default function Lessons() {
               >
                 ✨
               </motion.div> */}
+              <motion.div
+                className="absolute top-0 left-0 w-full h-[3px] bg-accent2 opacity-0 group-hover:opacity-100"
+                animate={{ x: ["-100%", "100%"] }}
+                transition={{ repeat: Infinity, duration: 1.6, ease: "linear" }}
+              ></motion.div>
 
               {/* Animated XP/Time pill */}
               <motion.div
@@ -120,10 +125,10 @@ export default function Lessons() {
                 <motion.span
                   animate={{ rotate: [0, -8, 8, 0] }}
                   transition={{ repeat: Infinity, duration: 3 }}
-                  >
+                >
                   📘
                 </motion.span>
-                  {lesson.title}
+                {lesson.title}
               </h2>
 
               {/* Level */}
