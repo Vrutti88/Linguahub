@@ -3,6 +3,7 @@ import AppLayout from "./layout/AppLayout.jsx";
 
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
+import Welcome from "./pages/Welcome.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import Lessons from "./pages/Lessons.jsx";
 import LessonView from "./pages/LessonView.jsx";
@@ -32,6 +33,7 @@ export default function App() {
       {/* PUBLIC ROUTES */}
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/welcome" element={<Welcome />} />
       <Route path="/onboarding" element={<OnboardingFlow />} />
 
       {/* PROTECTED ROUTES */}

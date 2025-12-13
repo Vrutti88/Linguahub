@@ -3,6 +3,8 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../api/client.js";
 import { motion } from "framer-motion";
+import WelcomeScreen from "../components/WelcomeScreen";
+
 
 export default function Register() {
   const [form, setForm] = useState({
@@ -40,7 +42,13 @@ export default function Register() {
       }
 
       setSuccess("Registration successful! Redirecting...");
-      setTimeout(() => navigate("/onboarding"), 1200);
+      setTimeout(() => {
+        if (res.data.user.role === "student") {
+          navigate("/welcome");  // 🟢 Student → welcom page
+        } else {
+          navigate("/Dashboard");        // 🔵 Teacher → dashboard
+        }
+      }, 1200);
     } catch (err) {
       setError(err.response?.data?.msg || "Registration failed");
     }
@@ -99,7 +107,7 @@ export default function Register() {
           <motion.p
             initial={{ opacity: 0, y: -6 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-3 text-sm text-accent3/80 bg-accent3/10 border border-accent3/30 rounded-xl px-3 py-2"
+            className="mb-3 text-sm text-textPrimary bg-accent3/10 border border-accent3/30 rounded-xl px-3 py-2"
           >
             {success}
           </motion.p>

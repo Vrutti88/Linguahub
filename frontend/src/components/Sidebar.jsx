@@ -1,5 +1,6 @@
 import { NavLink,useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import Logo from "../assets/logo-removebg-preview.png"
 import Dashboard from "../pages/Dashboard";
 
 
@@ -45,17 +46,17 @@ export default function Sidebar({ user, onLogout }) {
       </motion.div> */}
 
       {/* Brand / Logo */}
-      <div className="flex items-center gap-3 mb-2 cursor-pointer" onClick={() => navigate("/")}>
+      <div className="flex items-center gap-2 mb-2 cursor-pointer" onClick={() => navigate("/")}>
         <motion.div
-          animate={{ rotate: [0, -8, 8, 0] }}
+          animate={{ rotate: [0, -2, 2, 0] }}
           transition={{ repeat: Infinity, duration: 2.5 }}
           className="
-            w-11 h-11 rounded-2xl bg-gradient-main 
+            w-11 h-11 rounded-2xl
             flex items-center justify-center text-xl 
             font-extrabold text-textPrimary shadow-glow
           "
         >
-          L
+          <img src={Logo} alt="" />
         </motion.div>
 
         <div>
