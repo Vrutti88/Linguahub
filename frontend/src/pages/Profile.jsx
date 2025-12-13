@@ -84,7 +84,7 @@ export default function Profile() {
       </motion.div>
 
       {/* Achievement Card */}
-      <motion.div
+      {/* <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         // whileHover={{ scale: 1.02 }}
@@ -117,7 +117,7 @@ export default function Profile() {
             🌍 First language completed badge
           </motion.li>
         </ul>
-      </motion.div>
+      </motion.div> */}
     </div>
   );
 }

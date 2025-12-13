@@ -73,12 +73,12 @@ export default function Navbar({ user }) {
         <div>
           <h1 className="font-extrabold text-lg text-headerHighlight drop-shadow-glow flex items-center gap-1">
             Linguahub
-            <motion.span
+            {/* <motion.span
               animate={{ scale: [1, 1.2, 1] }}
               transition={{ repeat: Infinity, duration: 1.6 }}
             >
               🔥
-            </motion.span>
+            </motion.span> */}
           </h1>
           <p className="text-[10px] text-textSecondary">Learn daily, playfully</p>
         </div>

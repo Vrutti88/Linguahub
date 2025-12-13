@@ -143,7 +143,7 @@ export default function Lessons() {
               </p>
 
               {/* Fake progress bar */}
-              <div>
+              {/* <div>
                 <div className="w-full h-2 rounded-full bg-bg overflow-hidden border border-accent2/20">
                   <motion.div
                     className="h-full bg-gradient-main rounded-full"
@@ -164,7 +164,7 @@ export default function Lessons() {
                     🚀
                   </motion.span>
                 </p>
-              </div>
+              </div> */}
             </motion.button>
           ))}
         </motion.div>

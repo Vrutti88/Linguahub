@@ -1,8 +1,12 @@
-import { NavLink } from "react-router-dom";
+import { NavLink,useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import Dashboard from "../pages/Dashboard";
+
 
 export default function Sidebar({ user, onLogout }) {
   const role = user?.role || localStorage.getItem("role");
+
+  const navigate = useNavigate();
 
   const base =
     "px-3 py-2 rounded-xl flex items-center gap-3 text-sm transition-all duration-300";
@@ -41,7 +45,7 @@ export default function Sidebar({ user, onLogout }) {
       </motion.div> */}
 
       {/* Brand / Logo */}
-      <div className="flex items-center gap-3 mb-2">
+      <div className="flex items-center gap-3 mb-2 cursor-pointer" onClick={() => navigate("/")}>
         <motion.div
           animate={{ rotate: [0, -8, 8, 0] }}
           transition={{ repeat: Infinity, duration: 2.5 }}

@@ -33,13 +33,13 @@ export default function ThemeToggle() {
       "
     >
       {/* ✨ Sparkle (ambient particle) */}
-      <motion.div
+      {/* <motion.div
         className="absolute top-1 left-1 text-[10px] opacity-40 pointer-events-none"
         animate={{ y: [0, -3, 0] }}
         transition={{ repeat: Infinity, duration: 2 }}
       >
         ✨
-      </motion.div>
+      </motion.div> */}
 
       {/* 🌟 Backlight Aura */}
       <motion.div
