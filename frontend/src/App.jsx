@@ -9,6 +9,7 @@ import Lessons from "./pages/Lessons.jsx";
 import LessonView from "./pages/LessonView.jsx";
 import LessonOverview from "./pages/LessonOverview.jsx";
 import Quiz from "./pages/Quiz.jsx";
+import QuizReview from "./pages/QuizReview.jsx";
 import Leaderboard from "./pages/Leaderboard.jsx";
 import Profile from "./pages/Profile.jsx";
 import EditProfile from "./pages/EditProfile.jsx";
@@ -51,6 +52,7 @@ export default function App() {
         <Route path="lessons/:id/overview" element={<LessonOverview />} />
         <Route path="lessons/:id/start" element={<LessonView />} />
         <Route path="quiz/:lessonId" element={<Quiz />} />
+        <Route path="/quiz-review/:lessonId" element={<QuizReview />} />
         <Route path="leaderboard" element={<Leaderboard />} />
         <Route path="profile" element={<Profile />} />
         <Route path="/profile/edit" element={<EditProfile />} />

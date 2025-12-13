@@ -123,27 +123,27 @@ export default function Quiz() {
       if (!window.confirm("Some questions are unanswered. Submit anyway?"))
         return;
     }
-  
+
     setSubmitting(true);
-  
+
     try {
       const res = await api.post("/quiz/submit", { lessonId, answers });
       const gained = res.data.xpEarned || 0;
-  
+
       // ⭐ SHOW XP POPUP
       setXpPopup(gained);
       setTimeout(() => setXpPopup(null), 2000);
-  
+
       // ⭐ Delay result screen so popup is visible
       setTimeout(() => {
         setResult(res.data);
       }, 900);
-  
+
       // ⭐ Delay alert so animation STILL shows
       setTimeout(() => {
         alert("🎉 Quiz Completed!");
       }, 1000);
-  
+
       // Confetti
       confetti({
         zIndex: 9999,
@@ -152,14 +152,14 @@ export default function Quiz() {
         startVelocity: 40,
         origin: { y: 0.6 },
       });
-  
+
     } catch (err) {
       console.error(err);
       alert("Failed to submit quiz.");
     } finally {
       setSubmitting(false);
     }
-  };  
+  };
 
   // -------------------------------------------------
   // RESULT SCREEN
@@ -168,13 +168,15 @@ export default function Quiz() {
     const percent = Math.round((result.score / result.total) * 100);
     const success = percent >= 70;
 
+    const review = buildReviewData(quiz, answers);
+  
     return (
       <motion.div
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        className="space-y-6 text-center text-textPrimary"
+        className="space-y-6 p-4 text-center text-textPrimary"
       >
-        <div className="bg-panel p-6 rounded-2xl border border-accent2/30 shadow-xl space-y-3">
+        <div className="bg-panel p-6 rounded-2xl border border-b-[3px] border-accent2/30 shadow-xl space-y-3">
           <h1 className="text-3xl font-extrabold text-headerHighlight drop-shadow-glow">
             {success ? "🎉 Amazing!" : "Keep Practicing 💪"}
           </h1>
@@ -201,24 +203,41 @@ export default function Quiz() {
           </div>
         </div>
 
+        <motion.button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() =>
+            navigate(`/quiz-review/${lessonId}`, {
+              state: { review, result },
+            })
+          }
+          className=" w-full px-6 py-3 bg-bg border border-b-2 font-bold rounded-xl shadow-glow text-sm"
+        >
+          View Results →
+        </motion.button>
+
         <div className="flex flex-col sm:flex-row gap-3">
-          <button
+          <motion.button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.95 }}
             onClick={() => {
               setResult(null);
               setCurrentIdx(0);
               setAnswers(new Array(total).fill(null));
             }}
-            className="flex-1 px-4 py-2 rounded-xl bg-bg border border-accent2/40 text-xs hover:bg-accent3 hover:text-bg transition shadow-glow"
+            className="flex-1 px-4 py-2 rounded-xl bg-bg border border-b-2 border-accent2/40 text-xs transition shadow-glow"
           >
             Retry Quiz ↻
-          </button>
+          </motion.button>
 
-          <button
+          <motion.button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.95 }}
             onClick={() => navigate(`/lessons`)}
-            className="flex-1 px-4 py-2 rounded-xl bg-bg border border-accent2/40 text-xs hover:bg-accent3 hover:text-bg transition shadow-glow"
+            className="flex-1 px-4 py-2 rounded-xl bg-bg border border-b-2 border-accent2/40 text-xs transition shadow-glow"
           >
             Back to Lesson
-          </button>
+          </motion.button>
         </div>
       </motion.div>
     );
@@ -229,30 +248,30 @@ export default function Quiz() {
   // -------------------------------------------------
   return (
     <>
-    <AnimatePresence>
-      {xpPopup && (
-        <motion.div
-          key={xpPopup}
-          initial={{ opacity: 0, y: 20, scale: 0.8 }}
-          animate={{ opacity: 1, y: -40, scale: 1 }}
-          exit={{ opacity: 0, y: -80, scale: 0.8 }}
-          transition={{ duration: 0.8 }}
-          className="
+      <AnimatePresence>
+        {xpPopup && (
+          <motion.div
+            key={xpPopup}
+            initial={{ opacity: 0, y: 20, scale: 0.8 }}
+            animate={{ opacity: 1, y: -40, scale: 1 }}
+            exit={{ opacity: 0, y: -80, scale: 0.8 }}
+            transition={{ duration: 0.8 }}
+            className="
             fixed top-24 left-1/2 -translate-x-1/2
             z-[999999999]   /* beyond EVERYTHING */
             pointer-events-none
-            px-4 py-2 rounded-xl bg-green-500 text-white 
+            px-4 py-2 rounded-xl bg-accent-3 text-textPrimary 
             font-bold text-lg shadow-2xl
           "
-        >
-          +{xpPopup} XP
-        </motion.div>
-      )}
-    </AnimatePresence>
-    <div className="space-y-6 text-textPrimary relative">
+          >
+            +{xpPopup} XP
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <div className="space-y-6 text-textPrimary relative">
 
-      {/* Floating Sparkle */}
-      {/* <motion.div
+        {/* Floating Sparkle */}
+        {/* <motion.div
         className="absolute right-4 top-0 text-xl opacity-20"
         animate={{ y: [0, -6, 0] }}
         transition={{ duration: 4, repeat: Infinity }}
@@ -260,128 +279,158 @@ export default function Quiz() {
         ✨
       </motion.div> */}
 
-      {/* HEADER */}
-      <motion.div
-        initial={{ opacity: 0, y: -5 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="flex justify-between items-center"
-      >
-        <div>
-          <h1 className="text-2xl font-extrabold text-headerHighlight drop-shadow-glow">
-            🧠 Quiz Time!
-          </h1>
-          <p className="text-xs text-textSecondary">
-            Lesson: {lesson?.title}
-          </p>
-        </div>
-
-        <div className="text-right text-[11px] text-textSecondary">
-          <p>
-            Question {currentIdx + 1} / {total}
-          </p>
-          <p className="font-semibold text-accent3">{progress}% complete</p>
-        </div>
-      </motion.div>
-
-      {/* Progress Bar */}
-      <div className="w-full h-2 rounded-full bg-bg border border-accent2/30 overflow-hidden">
+        {/* HEADER */}
         <motion.div
-          initial={{ width: 0 }}
-          animate={{ width: `${progress}%` }}
-          transition={{ duration: 0.4 }}
-          className="h-full bg-gradient-main"
-        />
-      </div>
+          initial={{ opacity: 0, y: -5 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex justify-between items-center"
+        >
+          <div>
+            <h1 className="text-2xl font-extrabold text-headerHighlight drop-shadow-glow">
+              🧠 Quiz Time!
+            </h1>
+            <p className="text-xs text-textSecondary">
+              Lesson: {lesson?.title}
+            </p>
+          </div>
 
-      {/* QUESTION CARD */}
-      <motion.div
-        key={currentIdx}
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.25 }}
-        className="bg-panel p-6 rounded-2xl border border-accent2/40 shadow-xl space-y-4"
-      >
-        <p className="font-semibold text-sm flex items-start gap-1">
-          <span className="text-accent3 font-bold">
-            Q{currentIdx + 1}.
-          </span>
-          {normalizedQuestion.question}
-        </p>
+          <div className="text-right text-[11px] text-textSecondary">
+            <p>
+              Question {currentIdx + 1} / {total}
+            </p>
+            <p className="font-semibold text-accent3">{progress}% complete</p>
+          </div>
+        </motion.div>
 
-        {/* ========== MCQ (Duolingo-Style Bubbles) ========== */}
-        {normalizedQuestion.type === "mcq" && (
-          <div className="grid sm:grid-cols-2 gap-4 mt-4">
-            {normalizedQuestion.options.map((opt, idx) => {
-              const selected = answers[currentIdx] === idx;
+        {/* Progress Bar */}
+        <div className="w-full h-2 rounded-full bg-bg border border-accent2/30 overflow-hidden">
+          <motion.div
+            initial={{ width: 0 }}
+            animate={{ width: `${progress}%` }}
+            transition={{ duration: 0.4 }}
+            className="h-full bg-gradient-main"
+          />
+        </div>
 
-              return (
-                <motion.button
-                  whileTap={{ scale: 0.97 }}
-                  key={idx}
-                  onClick={() => setAnswer(idx)}
-                  className={`
+        {/* QUESTION CARD */}
+        <motion.div
+          key={currentIdx}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.25 }}
+          className="bg-panel p-6 rounded-2xl border border-accent2/40 shadow-xl space-y-4"
+        >
+          <p className="font-semibold text-sm flex items-start gap-1">
+            <span className="text-accent3 font-bold">
+              Q{currentIdx + 1}.
+            </span>
+            {normalizedQuestion.question}
+          </p>
+
+          {/* ========== MCQ (Duolingo-Style Bubbles) ========== */}
+          {normalizedQuestion.type === "mcq" && (
+            <div className="grid sm:grid-cols-2 gap-4 mt-4">
+              {normalizedQuestion.options.map((opt, idx) => {
+                const selected = answers[currentIdx] === idx;
+
+                return (
+                  <motion.button
+                    whileTap={{ scale: 0.97 }}
+                    key={idx}
+                    onClick={() => setAnswer(idx)}
+                    className={`
                     px-4 py-3 rounded-full text-sm font-medium transition-all shadow-md border
                     ${selected
-                      ? "bg-accent3 text-white border-accent3 shadow-glow scale-[1.03]"
-                      : "bg-bg text-textPrimary border-accent2/30 hover:bg-panel hover:shadow-glow"
-                    }
+                        ? "bg-accent3 text-white border-accent3 shadow-glow scale-[1.03]"
+                        : "bg-bg text-textPrimary border-accent2/30 hover:bg-panel hover:shadow-glow"
+                      }
                   `}
-                >
-                  {opt}
-                </motion.button>
-              );
-            })}
-          </div>
-        )}
+                  >
+                    {opt}
+                  </motion.button>
+                );
+              })}
+            </div>
+          )}
 
-        {/* ========== FIB ========== */}
-        {normalizedQuestion.type === "fib" && (
-          <input
-            value={answers[currentIdx] ?? ""}
-            onChange={(e) => setAnswer(e.target.value)}
-            placeholder="Type your answer..."
-            className="w-full px-4 py-3 rounded-xl bg-bg border border-accent2/40 text-sm shadow focus:border-accent3 outline-none"
-          />
-        )}
-      </motion.div>
+          {/* ========== FIB ========== */}
+          {normalizedQuestion.type === "fib" && (
+            <input
+              value={answers[currentIdx] ?? ""}
+              onChange={(e) => setAnswer(e.target.value)}
+              placeholder="Type your answer..."
+              className="w-full px-4 py-3 rounded-xl bg-bg border border-accent2/40 text-sm shadow focus:border-accent3 outline-none"
+            />
+          )}
+        </motion.div>
 
-      {/* ACTION BUTTONS */}
-      <div className="flex flex-col sm:flex-row justify-between gap-3">
+        {/* ACTION BUTTONS */}
+        <div className="flex flex-col sm:flex-row justify-between gap-3">
 
-        {/* Previous */}
-        <button
-          disabled={currentIdx === 0}
-          onClick={prevQuestion}
-          className={`
+          {/* Previous */}
+          <button
+            disabled={currentIdx === 0}
+            onClick={prevQuestion}
+            className={`
             px-4 py-2 rounded-xl text-xs border shadow transition-all
             ${currentIdx === 0
-              ? "text-textSecondary bg-bg border-accent2/20 cursor-not-allowed"
-              : "bg-bg text-textPrimary border-accent2/30 hover:bg-accent3 hover:text-bg shadow-glow"
-            }
+                ? "text-textSecondary bg-bg border-accent2/20 cursor-not-allowed"
+                : "bg-bg text-textPrimary border-accent2/30 hover:bg-accent3 hover:text-bg shadow-glow"
+              }
           `}
-        >
-          ← Previous
-        </button>
+          >
+            ← Previous
+          </button>
 
-        {/* Next or Submit */}
-        {currentIdx < total - 1 ? (
-          <button
-            onClick={nextQuestion}
-            className="px-4 py-2 rounded-xl text-xs bg-bg border text-textPrimary border-accent2/30 hover:bg-accent3 hover:text-bg shadow-glow transition"
-          >
-            Next →
-          </button>
-        ) : (
-          <button
-            onClick={handleSubmit}
-            disabled={submitting}
-            className="px-4 py-2 rounded-xl bg-gradient-main text-bg text-xs font-semibold shadow-glow hover:scale-105 transition disabled:opacity-60"
-          >
-            {submitting ? "Submitting..." : "Finish Quiz 🎉"}
-          </button>
-        )}
+          {/* Next or Submit */}
+          {currentIdx < total - 1 ? (
+            <button
+              onClick={nextQuestion}
+              className="px-4 py-2 rounded-xl text-xs bg-bg border text-textPrimary border-accent2/30 hover:bg-accent3 hover:text-bg shadow-glow transition"
+            >
+              Next →
+            </button>
+          ) : (
+            <button
+              onClick={handleSubmit}
+              disabled={submitting}
+              className="px-4 py-2 rounded-xl bg-gradient-main text-bg text-xs font-semibold shadow-glow hover:scale-105 transition disabled:opacity-60"
+            >
+              {submitting ? "Submitting..." : "Finish Quiz 🎉"}
+            </button>
+          )}
+        </div>
       </div>
-    </div>
     </>
   );
+}
+
+  /* =====================================
+   Build Review Data (NO BACKEND CHANGE)
+===================================== */
+function buildReviewData(quiz, answers) {
+  if (!quiz?.questions) return [];
+
+  return quiz.questions.map((q, idx) => {
+    const userAnswer = answers[idx];
+
+    return {
+      type: q.type,
+      question: q.question,
+      options: q.options,
+      userIndex: q.type === "mcq" ? userAnswer : null,
+      correctIndex: q.type === "mcq" ? q.answer : null,
+      userAnswer:
+        q.type === "mcq"
+          ? q.options[userAnswer]
+          : userAnswer || "Not answered",
+      correctAnswer:
+        q.type === "mcq" ? q.options[q.answer] : q.answerText,
+      isCorrect:
+        q.type === "mcq"
+          ? Number(userAnswer) === q.answer
+          : String(userAnswer).trim().toLowerCase() ===
+            String(q.answerText).trim().toLowerCase(),
+    };
+  });
 }
