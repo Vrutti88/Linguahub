@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../../api/client";
-import {motion} from "framer-motion"
+import { motion } from "framer-motion"
 
 export default function ManageQuizzes() {
     const [quizzes, setQuizzes] = useState([]);
@@ -257,8 +257,8 @@ export default function ManageQuizzes() {
                                             <div
                                                 key={optIdx}
                                                 className={`px-3 py-2 rounded-xl border text-xs ${optIdx === q.answer
-                                                        ? "bg-accent3 border-accent3 text-white shadow-glow"
-                                                        : "bg-panel border-accent2/20 text-textPrimary"
+                                                    ? "bg-accent3 border-accent3 text-white shadow-glow"
+                                                    : "bg-panel border-accent2/20 text-textPrimary"
                                                     }`}
                                             >
                                                 {optIdx + 1}. {opt}
@@ -462,30 +462,30 @@ export default function ManageQuizzes() {
             )}
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            
-                
+
+
                 {quizzes.map((q) => (
                     // <div
                     //     key={q._id}
                     //     className="p-4 bg-panel border border-accent2/30 rounded-xl shadow-xl flex justify-between items-center"
                     // >
-                        <motion.div
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      whileHover={{ y: -6, scale: 1.02 }}
-      transition={{ type: "spring", stiffness: 120 }}
-      className="
-        relative bg-panel rounded-2xl p-5 shadow-xl border border-accent2/20
+                    <motion.div
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        whileHover={{ y: -6, scale: 1.02 }}
+                        transition={{ type: "spring", stiffness: 120 }}
+                        className="
+        relative bg-panel rounded-2xl p-5 shadow-xl border border-b-[3px] border-accent2/20
         flex flex-col justify-between transition-all duration-300
         overflow-hidden group 
       "
-    >
+                    >
 
-<motion.div
-        className="absolute top-0 left-0 w-full h-[3px] bg-accent2 opacity-0 group-hover:opacity-100"
-        animate={{ x: ["-100%", "100%"] }}
-        transition={{ repeat: Infinity, duration: 1.6, ease: "linear" }}
-      ></motion.div>
+                        <motion.div
+                            className="absolute top-0 left-0 w-full h-[3px] bg-accent2 opacity-0 group-hover:opacity-100"
+                            animate={{ x: ["-100%", "100%"] }}
+                            transition={{ repeat: Infinity, duration: 1.6, ease: "linear" }}
+                        ></motion.div>
                         <div>
                             <p className="font-bold text-headerHighlight drop-shadow-glow text-sm mb-2">
                                 Lesson: {q.lessonId?.title || "Unknown"}
@@ -501,7 +501,7 @@ export default function ManageQuizzes() {
                                 onClick={() =>
                                     setViewingQuiz({ ...q, questions: q.questions.map(normalizeQuestion), })}
                                 className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl  text-xs
-                       bg-bg border border-accent2/30 text-textPrimary 
+                       bg-bg border border-b-2 border-accent2/30 text-textPrimary 
                        hover:bg-accent3 hover:text-textPrimary 
                        hover:shadow-glow transition-all"
                             >
@@ -512,7 +512,7 @@ export default function ManageQuizzes() {
                             <button
                                 onClick={() => openEditor(q.lessonId?._id)}
                                 className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl  text-xs
-                       bg-bg border border-accent2/30 text-textPrimary 
+                       bg-bg border border-b-2 border-accent2/30 text-textPrimary 
                        hover:bg-accent3 hover:text-textPrimary 
                        hover:shadow-glow transition-all"
                             >

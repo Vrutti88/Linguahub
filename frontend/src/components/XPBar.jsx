@@ -13,7 +13,7 @@ export default function XPBar({ xp = 0 }) {
       transition={{ duration: 0.35 }}
       className="
         relative w-full p-3 rounded-2xl 
-        bg-panel border border-accent2/20 
+        bg-panel border border-b-[3px] border-accent2/20 
         shadow-[0_0_12px_rgba(0,198,255,0.15)]
         overflow-hidden
       "

@@ -17,7 +17,7 @@ export default function LessonCard({
       whileHover={{ y: -6, scale: 1.02 }}
       transition={{ type: "spring", stiffness: 120 }}
       className="
-        relative bg-panel rounded-2xl p-5 shadow-xl border border-accent2/20
+        relative bg-panel rounded-2xl p-5 shadow-xl border border-b-[3px] border-accent2/20
         flex flex-col justify-between transition-all duration-300
         overflow-hidden group
       "
@@ -107,7 +107,7 @@ export default function LessonCard({
             onClick={onView}
             className="
               inline-flex items-center gap-1 px-3 py-1.5 rounded-xl 
-              bg-bg border border-accent2/30 text-textPrimary 
+              bg-bg border border-b-2 border-accent2/30 text-textPrimary 
               hover:bg-accent3 hover:text-textPrimary 
               hover:shadow-glow transition-all
             "
@@ -126,7 +126,7 @@ export default function LessonCard({
             to={`/lessons/${lesson._id}`}
             className="
               inline-flex items-center gap-1 px-3 py-1.5 rounded-xl 
-              bg-bg border border-accent2/30 text-textPrimary 
+              bg-bg border border-b-2 border-accent2/30 text-textPrimary 
               hover:bg-accent2 hover:text-textPrimary 
               hover:shadow-glow transition-all
             "
@@ -163,7 +163,7 @@ export default function LessonCard({
               whileHover={{ scale: 1.08 }}
               className="
                 inline-flex items-center gap-1 px-3 py-1.5 rounded-xl 
-                bg-bg border border-accent2/30 text-textPrimary 
+                bg-bg border border-b-2 border-accent2/30 text-textPrimary 
                 hover:bg-accent3 hover:text-textPrimary 
                 hover:shadow-glow transition-all
               "
@@ -180,7 +180,7 @@ export default function LessonCard({
               whileHover={{ scale: 1.1 }}
               className="
                 inline-flex items-center gap-1 px-3 py-1.5 rounded-xl 
-                bg-bg border border-accent2/30 text-textPrimary 
+                bg-bg border border-b-2 border-accent2/30 text-textPrimary 
                 hover:bg-accent3 hover:text-textPrimary 
                 hover:shadow-glow transition-all
               "

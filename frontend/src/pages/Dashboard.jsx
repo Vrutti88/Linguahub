@@ -199,7 +199,7 @@ function DashCard({ to, icon, title, desc, glow }) {
     <Link
       to={to}
       className={`
-        group bg-panel border border-${glow}/30  
+        group bg-panel border border-b-[3px] border-${glow}/30  
         rounded-2xl p-6 shadow-xl flex flex-col gap-3 
         transition-all hover:border-${glow} hover:shadow-glow hover:-translate-y-2 
         relative overflow-hidden

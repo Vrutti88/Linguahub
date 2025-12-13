@@ -89,7 +89,7 @@ export default function Lessons() {
               transition={{ delay: 0.05 * index, duration: 0.3 }}
               whileHover={{ y: -5, scale: 1.02 }}
               className="
-                relative text-left bg-panel border border-accent2/30 rounded-2xl p-5
+                relative text-left bg-panel border border-b-[3px] border-accent2/30 rounded-2xl p-5
                 shadow-xl hover:shadow-glow transition-all duration-300
                 overflow-hidden group
               "

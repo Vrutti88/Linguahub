@@ -126,7 +126,7 @@ export default function Leaderboard() {
             whileHover={{ scale: 1.02, y: -2 }}
             transition={{ type: "spring", stiffness: 120 }}
             className="
-            relative bg-panel border border-accent2/30 rounded-xl p-4 shadow-xl
+            relative bg-panel border border-b-[3px] border-accent2/30 rounded-xl p-4 shadow-xl
             overflow-hidden group
           "
           >

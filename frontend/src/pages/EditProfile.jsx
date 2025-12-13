@@ -9,19 +9,25 @@ export default function EditProfile() {
     age: "",
     gender: "",
     country: "",
-    nativeLanguage: "",
-    learningGoal: "",
   });
 
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     const loadProfile = async () => {
       try {
         const res = await api.get("/user/profile");
-        setForm(res.data);
+        setForm({
+          name: res.data.name || "",
+          age: res.data.age || "",
+          gender: res.data.gender || "",
+          country: res.data.country || "",
+        });
       } catch (err) {
         console.error(err);
+      } finally {
+        setLoading(false);
       }
     };
     loadProfile();
@@ -42,76 +48,93 @@ export default function EditProfile() {
     }
   };
 
+  if (loading) {
+    return (
+      <div className="text-center text-textSecondary mt-10">
+        Loading...
+      </div>
+    );
+  }
+
   return (
-    <div className="space-y-6 max-w-xl">
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+      className="max-w-2xl mx-auto space-y-8 text-textPrimary"
+    >
+      {/* HEADER */}
+      <div className="text-center mb-4">
+        <h1 className="text-3xl font-extrabold text-headerHighlight drop-shadow-glow">
+          Edit Profile
+        </h1>
+        <p className="text-xs text-textSecondary mt-1">
+          Update your personal details
+        </p>
+      </div>
 
-      <h1 className="text-3xl font-bold text-headerHighlight drop-shadow-glow">
-        Edit Profile
-      </h1>
+      {/* FORM CARD */}
+      <div className="bg-panel p-6 rounded-2xl border border-accent2/20 shadow-xl space-y-6">
 
-      <form onSubmit={handleSave} className="space-y-4">
+        <form onSubmit={handleSave} className="space-y-5">
 
-        <Input label="Name" name="name" value={form.name} onChange={updateField} />
-        <Input label="Age" type="number" name="age" value={form.age} onChange={updateField} />
+          <Input label="Name" name="name" value={form.name} onChange={updateField} />
+          <Input label="Age" type="number" name="age" value={form.age} onChange={updateField} />
 
-        <Select
-          label="Gender"
-          name="gender"
-          value={form.gender}
-          onChange={updateField}
-          options={[
-            ["", "Select"],
-            ["female", "Female"],
-            ["male", "Male"],
-            ["prefer-not", "Prefer not to say"],
-          ]}
-        />
+          <Select
+            label="Gender"
+            name="gender"
+            value={form.gender}
+            onChange={updateField}
+            options={[
+              ["", "Select gender"],
+              ["female", "Female"],
+              ["male", "Male"],
+              ["prefer-not", "Prefer not to say"],
+            ]}
+          />
 
-        <Input label="Country" name="country" value={form.country} onChange={updateField} />
-        <Input label="Native Language" name="nativeLanguage" value={form.nativeLanguage} onChange={updateField} />
+          <Input label="Country" name="country" value={form.country} onChange={updateField} />
 
-        <Select
-          label="Learning Goal"
-          name="learningGoal"
-          value={form.learningGoal}
-          onChange={updateField}
-          options={[
-            ["", "Choose goal"],
-            ["travel", "Travel"],
-            ["career", "Career growth"],
-            ["study", "Study abroad"],
-            ["fun", "Just for fun"],
-          ]}
-        />
+          <hr className="border-0 h-[2px] w-full bg-gradient-to-r from-transparent via-accent3 to-transparent rounded-full" />
 
-        <motion.button
-          whileHover={{ scale: 1.03 }}
-          whileTap={{ scale: 0.94 }}
-          className="w-full bg-gradient-main text-textPrimary py-3 rounded-xl font-semibold shadow-glow"
-          type="submit"
+
+          {/* SAVE BUTTON */}
+          <motion.button
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.95 }}
+            className="w-full bg-bg text-textPrimary py-3 border border-b-2 rounded-xl font-bold shadow-glow"
+            type="submit"
+          >
+            Save Changes ✔
+          </motion.button>
+        </form>
+
+        {/* CANCEL */}
+        <button
+          onClick={() => navigate("/profile")}
+          className="w-full bg-bg text-textPrimary py-3 border border-b-2 rounded-xl font-bold shadow-glow"
         >
-          Save Changes
-        </motion.button>
-      </form>
-
-      <button
-        onClick={() => navigate("/profile")}
-        className="text-sm text-accent2 underline mt-3"
-      >
-        Cancel
-      </button>
-    </div>
+          Cancel
+        </button>
+      </div>
+    </motion.div>
   );
 }
 
+/* -------------------------
+   REUSABLE COMPONENTS
+-------------------------- */
+
 function Input({ label, ...props }) {
   return (
-    <div>
-      <p className="text-xs text-textSecondary mb-1">{label}</p>
+    <div className="space-y-1">
+      <p className="text-[11px] text-textSecondary font-semibold">{label}</p>
       <input
         {...props}
         className="w-full px-3 py-2 rounded-xl bg-bg border border-accent2/20 
-          text-textPrimary focus:ring-2 focus:ring-accent2/40 outline-none"
+                   text-textPrimary focus:ring-2 focus:ring-accent2/40 outline-none
+                   transition-all"
       />
     </div>
   );
@@ -119,12 +142,13 @@ function Input({ label, ...props }) {
 
 function Select({ label, options, ...props }) {
   return (
-    <div>
-      <p className="text-xs text-textSecondary mb-1">{label}</p>
+    <div className="space-y-1">
+      <p className="text-[11px] text-textSecondary font-semibold">{label}</p>
       <select
         {...props}
         className="w-full px-3 py-2 rounded-xl bg-bg border border-accent2/20 
-          text-textPrimary focus:ring-2 focus:ring-accent2/40 outline-none"
+                   text-textPrimary focus:ring-2 focus:ring-accent2/40 outline-none
+                   transition-all"
       >
         {options.map(([val, text], i) => (
           <option key={i} value={val}>

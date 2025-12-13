@@ -25,10 +25,10 @@ export default function StreakWidget({ streak = 0 }) {
   return (
     <div
       className={`
-        inline-flex items-center gap-2 px-4 py-2 rounded-2xl 
-        text-xs md:text-sm border select-none
+        inline-flex items-center gap-2 px-4 py-2 rounded-xl 
+        text-xs md:text-sm border border-b-[3px] select-none
         ${isActive
-          ? "bg-gradient-main text-textPrimary border-accent3 shadow-glow"
+          ? "bg-bg text-textPrimary border-accent3/30 shadow-glow"
           : "bg-panel border-accent2/20 text-textSecondary"
         }
       `}

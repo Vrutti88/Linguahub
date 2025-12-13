@@ -99,11 +99,11 @@ export default function AddLesson() {
             className="space-y-8 relative"
         >
             {/* Background Glow */}
-            <motion.div
+            {/* <motion.div
                 className="absolute -top-32 -right-20 w-64 h-64 bg-gradient-main blur-3xl opacity-20 pointer-events-none"
                 animate={{ opacity: [0.15, 0.3, 0.15] }}
                 transition={{ duration: 6, repeat: Infinity }}
-            />
+            /> */}
 
             {/* Header */}
             <motion.div

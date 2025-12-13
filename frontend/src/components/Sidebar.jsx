@@ -13,7 +13,7 @@ export default function Sidebar({ user, onLogout }) {
     "px-3 py-2 rounded-xl flex items-center gap-3 text-sm transition-all duration-300";
 
   const activeClass =
-    "bg-gradient-main text-textPrimary shadow-glow scale-[1.03] border border-accent2/40";
+    "bg-bg text-textPrimary shadow-glow scale-[1.03] border border-b-[3px] border-accent3";
 
   const inactiveClass =
     "text-textSecondary hover:text-textPrimary hover:bg-panel/40 hover:shadow-glow hover:border-accent2/30 border border-transparent";

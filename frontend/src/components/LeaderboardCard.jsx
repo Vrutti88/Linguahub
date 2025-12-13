@@ -14,7 +14,7 @@ export default function LeaderboardCard({ rank, name, xp, streak }) {
       transition={{ duration: 0.3, type: "spring" }}
       className={`
         relative flex items-center justify-between bg-panel rounded-2xl 
-        px-5 py-4 border border-accent2/40 
+        px-5 py-4 border border-b-[2.5px] border-accent2/40 
         shadow-[0_0_12px_rgba(30,144,255,0.25)]
         overflow-hidden
       `}
