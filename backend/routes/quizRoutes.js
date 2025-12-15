@@ -1,6 +1,5 @@
 import express from "express";
 import {
-  getQuiz,
   submitQuiz,
   addOrUpdateQuiz,
   getAllQuizzes,
@@ -14,7 +13,6 @@ import teacher from "../middleware/teacher.js";
 const router = express.Router();
 
 // STUDENT Routes
-router.get("/quiz/:lessonId", getQuiz);
 router.post("/quiz/submit",auth, submitQuiz);
 router.get("/quiz/:lessonId", auth, getQuizByLessonId);
 

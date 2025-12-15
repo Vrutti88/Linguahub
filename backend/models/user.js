@@ -5,8 +5,8 @@ const UserSchema = new mongoose.Schema({
   email: { type: String, unique: true },
   password: String,
   age: { type: Number, default: null },
-    gender: { type: String, default: "" },
-    country: { type: String, default: "" },
+  gender: { type: String, default: "" },
+  country: { type: String, default: "" },
   role: { type: String, default: "student" },
   xp: { type: Number, default: 0 },
   lessonXp: { type: Map, of: Number, default: {} },
@@ -27,9 +27,8 @@ const UserSchema = new mongoose.Schema({
     type: Map,
     of: Number,
     default: {}
-  },  
+  },
 
-  // 🔥 Duolingo-style onboarding fields
   onboardingCompleted: {
     type: Boolean,
     default: false,
@@ -51,11 +50,11 @@ const UserSchema = new mongoose.Schema({
       { type: mongoose.Schema.Types.ObjectId, ref: "Lesson" }
     ],
     completedQuizzes: [
-      { type: mongoose.Schema.Types.ObjectId, ref: "Lesson" } // NEW
+      { type: mongoose.Schema.Types.ObjectId, ref: "Lesson" }
     ]
-  },  
+  },
 },
-{timestamps:true}
+  { timestamps: true }
 );
 
 UserSchema.pre("save", async function () {

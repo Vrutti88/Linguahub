@@ -1,21 +1,6 @@
 import Quiz from "../models/quiz.js";
 import Lesson from "../models/lesson.js";
 import User from "../models/user.js";
-// import Progress from "../models/progress.js";
-
-// 🟩 Get quiz for lesson
-export const getQuiz = async (req, res) => {
-  try {
-    const quiz = await Quiz.findOne({ lessonId: req.params.lessonId });
-
-    if (!quiz) return res.status(404).json({ msg: "Quiz not found" });
-
-    res.json(quiz);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ msg: "Failed to load quiz" });
-  }
-};
 
 export const getQuizByLessonId = async (req, res) => {
   try {
@@ -33,7 +18,7 @@ export const getQuizByLessonId = async (req, res) => {
 };
 
 
-// 🟧 STUDENT: Submit quiz (MCQ + Fill)
+// STUDENT: Submit quiz (MCQ + Fill)
 export const submitQuiz = async (req, res) => {
   try {
     const userId = req.user.id;
@@ -62,42 +47,36 @@ export const submitQuiz = async (req, res) => {
 
     const percent = (score / quiz.questions.length) * 100;
 
-    // ---------------------------
-    //  XP LOGIC (Fair + Accurate)
-    // ---------------------------
-
+    //  XP LOGIC
     let xpEarned = 0;
 
     if (percent >= 90) {
       xpEarned = 50; // high score
-    } else if (percent >= 60) {
+    } else if (percent >= 50) {
       xpEarned = 30; // pass bonus
-    }else if (percent >= 0) {
+    } else if (percent > 0) {
       xpEarned = 10
     } else {
       xpEarned = 0; // fail → no XP
     }
 
     // ⭐ XP DIFFERENCE LOGIC — Prevent double reward
-const previousBestXp = user.quizXp.get(lessonId) || 0;
+    const previousBestXp = user.quizXp.get(lessonId) || 0;
 
-// Award only the difference
-const xpDifference = Math.max(0, xpEarned - previousBestXp);
+    // Award only the difference
+    const xpDifference = Math.max(0, xpEarned - previousBestXp);
 
-// Add XP only if improved
-user.xp += xpDifference;
+    // Add XP only if improved
+    user.xp += xpDifference;
 
-// Update stored best XP for this lesson
-user.quizXp.set(lessonId, xpEarned);
+    // Update stored best XP for this lesson
+    user.quizXp.set(lessonId, xpEarned);
 
-
-    // ---------------------------------------
     // BLOCK XP IF USER ALREADY COMPLETED QUIZ
-    // ---------------------------------------
     // Check if quiz already completed
-const alreadyDone = user.progress.completedQuizzes.some(
-  id => id.toString() === lessonId
-);
+    const alreadyDone = user.progress.completedQuizzes.some(
+      id => id.toString() === lessonId
+    );
 
     // ─────────────── STREAK LOGIC ───────────────
     const today = new Date().toDateString();
@@ -128,13 +107,12 @@ const alreadyDone = user.progress.completedQuizzes.some(
       }
     }
 
-    // ⭐ QUIZ COMPLETION TRACKING (store in user.progress.completedQuizzes)
-if (!user.progress.completedQuizzes.some(id => id.toString() === lessonId)) {
-  user.progress.completedQuizzes.push(lessonId);
-}
+    // QUIZ COMPLETION TRACKING (store in user.progress.completedQuizzes)
+    if (!user.progress.completedQuizzes.some(id => id.toString() === lessonId)) {
+      user.progress.completedQuizzes.push(lessonId);
+    }
 
-
-    // ─────────────── ACCURACY LOGIC (Correct Per-Lesson Tracking) ───────────────
+    // ACCURACY LOGIC (Correct Per-Lesson Tracking)
 
     // ensure fields exist
     user.correctAnswers = user.correctAnswers || 0;
@@ -160,10 +138,8 @@ if (!user.progress.completedQuizzes.some(id => id.toString() === lessonId)) {
     // Calculate accuracy
     user.accuracy = Math.round((user.correctAnswers / user.totalQuestions) * 100);
 
-    // clamp accuracy between 0–100
+    // accuracy stays between 0–100
     user.accuracy = Math.max(0, Math.min(user.accuracy, 100));
-
-    // ─────────────────────────────────────────────────────────────────────
 
     user.lastActiveDate = today;
     await user.save();
@@ -194,7 +170,7 @@ const normalizeQuestions = (questions) =>
     answerText: q.type === "fib" ? q.answerText : "",
   }));
 
-// 🟨 Teacher: Create or Update Quiz
+// Teacher: Create or Update Quiz
 export const addOrUpdateQuiz = async (req, res) => {
   try {
     const { lessonId, questions } = req.body;
@@ -220,11 +196,11 @@ export const addOrUpdateQuiz = async (req, res) => {
   }
 };
 
-// 🟦 Teacher: Get all quizzes
+// Teacher: Get all quizzes
 export const getAllQuizzes = async (req, res) => {
   try {
     const quizzes = await Quiz.find()
-      .populate("lessonId", "title")
+      .populate("lessonId", "title")  // replaces lessonid with lesson data
       .sort({ createdAt: -1 });
 
     res.json(quizzes);
@@ -234,7 +210,7 @@ export const getAllQuizzes = async (req, res) => {
   }
 };
 
-// 🟥 Teacher: Delete quiz
+// Teacher: Delete quiz
 export const deleteQuiz = async (req, res) => {
   try {
     const quiz = await Quiz.findByIdAndDelete(req.params.id);

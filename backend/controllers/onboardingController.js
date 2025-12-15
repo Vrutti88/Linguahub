@@ -10,7 +10,7 @@ export const saveOnboarding = async (req, res) => {
         onboardingCompleted: true,
         onboarding: { language, reason, knowledge, dailyGoal:Number(dailyGoal) },
     },
-    { new: true }
+    { new: true }    //updates the user data
 );
 
     res.json({
@@ -21,4 +21,3 @@ export const saveOnboarding = async (req, res) => {
     res.status(500).json(err);
   }
 };
-

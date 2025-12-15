@@ -41,7 +41,7 @@ export const register = async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
-        she:user.age,
+        age:user.age,
         gender:user.gender,
         country:user.country
       },

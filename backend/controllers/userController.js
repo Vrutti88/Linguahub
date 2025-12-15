@@ -21,9 +21,7 @@ export const getProfile = async (req, res) => {
       onboarding: user.onboarding,
       age: user.age || null,
       gender: user.gender || "",
-      country: user.country || "",
-      // nativeLanguage: user.nativeLanguage || "",
-      // learningGoal: user.learningGoal || ""
+      country: user.country || ""
     });
   } catch (err) {
     console.error(err);
@@ -39,9 +37,7 @@ export const updateProfile = async (req, res) => {
       "name",
       "age",
       "gender",
-      "country",
-      "nativeLanguage",
-      "learningGoal"
+      "country"
     ];
 
     const filtered = {};

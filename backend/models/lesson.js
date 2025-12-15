@@ -7,7 +7,6 @@ const LessonItemSchema = new mongoose.Schema({
   imageUrl: { type: String, default: "" },
   audioUrl: { type: String, default: "" },
   videoUrl: { type: String, default: "" },
-  tags: { type: [String], default: [] }
 });
 
 const LessonSchema = new mongoose.Schema(
@@ -23,14 +22,7 @@ const LessonSchema = new mongoose.Schema(
       default: "",
       trim: true,
     },
-
-    // Old field STILL supported (optional)
-    content: {
-      type: String,
-      default: "",
-    },
-
-    // NEW main learning content array
+    
     contents: {
       type: [LessonItemSchema],
       default: [],

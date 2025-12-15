@@ -1,28 +1,28 @@
-import mongoose from "mongoose";
+// import mongoose from "mongoose";
 
-const progressSchema = new mongoose.Schema(
-  {
-    userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
-    lessonId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Lesson",
-      required: true,
-    },
-    completed: {
-      type: Boolean,
-      default: false,
-    },
-    completedAt: {
-      type: Date,
-    },
-  },
-  { timestamps: true }
-);
+// const progressSchema = new mongoose.Schema(
+//   {
+//     userId: {
+//       type: mongoose.Schema.Types.ObjectId,
+//       ref: "User",
+//       required: true,
+//     },
+//     lessonId: {
+//       type: mongoose.Schema.Types.ObjectId,
+//       ref: "Lesson",
+//       required: true,
+//     },
+//     completed: {
+//       type: Boolean,
+//       default: false,
+//     },
+//     completedAt: {
+//       type: Date,
+//     },
+//   },
+//   { timestamps: true }
+// );
 
-progressSchema.index({ userId: 1, lessonId: 1 }, { unique: true });
+// progressSchema.index({ userId: 1, lessonId: 1 }, { unique: true });
 
-export default mongoose.model("Progress", progressSchema);
+// export default mongoose.model("Progress", progressSchema);

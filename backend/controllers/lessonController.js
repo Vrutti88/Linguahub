@@ -1,8 +1,7 @@
 import Lesson from "../models/lesson.js";
-
-// 🟩 Student & Teacher - Get Lessons
 import User from "../models/user.js";
 
+// Student & Teacher - Get Lessons
 export const getLessons = async (req, res) => {
   try {
     const role = req.user.role;
@@ -13,16 +12,16 @@ export const getLessons = async (req, res) => {
       return res.json(lessons);
     }
 
-    // 🟦 Student → fetch language from onboarding
+    // Student → fetch language from onboarding
     const user = await User.findById(req.user.id);
 
-    const selectedLanguage = user?.onboarding?.language;
+    const selectedLanguage = user?.onboarding?.language;  //optional chaining -> prevents crash if onboarding is missing
 
     if (!selectedLanguage) {
       return res.status(400).json({ msg: "User has no language selected" });
     }
 
-    // 🟩 Student sees only published lessons for their selected language
+    // Student sees only published lessons for their selected language
     const lessons = await Lesson.find({
       isPublished: true,
       language: selectedLanguage,
@@ -35,7 +34,7 @@ export const getLessons = async (req, res) => {
 };
 
 
-// 🟩 Get lesson by ID
+// Get lesson by ID
 export const getLessonById = async (req, res) => {
   try {
     const lesson = await Lesson.findById(req.params.id);
@@ -52,13 +51,13 @@ export const getLessonById = async (req, res) => {
   }
 };
 
-// 🟨 Teacher - Create Lesson
+// Teacher - Create Lesson
 export const createLesson = async (req, res) => {
   try {
-    const data = { ...req.body, createdBy: req.user.id };
+    const data = { ...req.body, createdBy: req.user.id };  // spread operator -> copies all fields from the req body
 
     // ensure contents array exists
-    if (!Array.isArray(data.contents)) data.contents = [];
+    if (!Array.isArray(data.contents)) data.contents = [];  //if data.cotent is not array it will force it to be an array
 
     const lesson = await Lesson.create(data);
 
@@ -68,7 +67,7 @@ export const createLesson = async (req, res) => {
   }
 };
 
-// 🟧 Teacher - Update Lesson
+// Teacher - Update Lesson
 export const updateLesson = async (req, res) => {
   try {
     const data = { ...req.body };
@@ -91,7 +90,7 @@ export const updateLesson = async (req, res) => {
   }
 };
 
-// 🟥 Teacher - Delete Lesson
+// Teacher - Delete Lesson
 export const deleteLesson = async (req, res) => {
   try {
     const lesson = await Lesson.findByIdAndDelete(req.params.id);

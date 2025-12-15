@@ -237,7 +237,7 @@ export default function ManageLessons() {
                         </div>
                     </div>
 
-                    <div>
+                    {/* <div>
                         <label className="text-textSecondary text-xs">Thumbnail URL</label>
                         <input
                             value={editData.image}
@@ -245,7 +245,7 @@ export default function ManageLessons() {
                             className="w-full mt-1 px-3 py-2 bg-bg border border-accent2/40 rounded-xl text-textPrimary"
                             placeholder="Image URL"
                         />
-                    </div>
+                    </div> */}
 
                 </div>
 

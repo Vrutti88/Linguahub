@@ -25,7 +25,7 @@ export default function AddLesson() {
     ];
 
     const [contents, setContents] = useState([
-        { src: "", target: "", pronunciation: "", imageUrl: "" },
+        { src: "", target: "", pronunciation: "", imageUrl: "", audioUrl:"", videoUrl: "" },
     ]);
 
     const [message, setMessage] = useState("");
@@ -35,7 +35,7 @@ export default function AddLesson() {
     const addItem = () => {
         setContents([
             ...contents,
-            { src: "", target: "", pronunciation: "", imageUrl: "" },
+            { src: "", target: "", pronunciation: "", imageUrl: "", audioUrl:"", videoUrl: "" },
         ]);
     };
 
@@ -84,7 +84,7 @@ export default function AddLesson() {
             setLevel("beginner");
             setTime("");
             setImage("");
-            setContents([{ src: "", target: "", pronunciation: "", imageUrl: "" }]);
+            setContents([{ src: "", target: "", pronunciation: "", imageUrl: "",audioUrl: "",videoUrl: "" }]);
         } catch (err) {
             console.error(err);
             setMessage("❌ Failed to create lesson.");
@@ -223,7 +223,7 @@ export default function AddLesson() {
                     </div>
 
                     {/* Thumbnail */}
-                    <div>
+                    {/* <div>
                         <label className="text-textSecondary text-xs">Thumbnail URL</label>
                         <input
                             value={image}
@@ -231,7 +231,7 @@ export default function AddLesson() {
                             className="w-full mt-1 px-3 py-2 bg-bg border border-accent2/40 rounded-xl text-textPrimary"
                             placeholder="Image URL"
                         />
-                    </div>
+                    </div> */}
                 </motion.div>
 
                 {/* CONTENT ITEMS */}
@@ -281,7 +281,6 @@ export default function AddLesson() {
                                     />
                                 </div>
 
-                                <div className="grid md:grid-cols-2 gap-3">
                                     <div>
                                         <label className="text-textSecondary text-xs">
                                             Pronunciation
@@ -309,7 +308,34 @@ export default function AddLesson() {
                                             placeholder="Image URL"
                                         />
                                     </div>
-                                </div>
+
+                                    <div>
+                                        <label className="text-textSecondary text-xs">
+                                            Audio URL
+                                        </label>
+                                        <input
+                                            value={item.audioUrl}
+                                            onChange={(e) =>
+                                                updateField(idx, "audioUrl", e.target.value)
+                                            }
+                                            className="w-full mt-1 px-3 py-2 bg-bg border border-accent2/40 rounded-xl text-textPrimary"
+                                            placeholder="Audio URL"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className="text-textSecondary text-xs">
+                                            Video URL
+                                        </label>
+                                        <input
+                                            value={item.videoUrl}
+                                            onChange={(e) =>
+                                                updateField(idx, "videoUrl", e.target.value)
+                                            }
+                                            className="w-full mt-1 px-3 py-2 bg-bg border border-accent2/40 rounded-xl text-textPrimary"
+                                            placeholder="Video URL"
+                                        />
+                                    </div>
                             </motion.div>
                         ))}
                     </AnimatePresence>
