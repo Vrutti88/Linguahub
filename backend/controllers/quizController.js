@@ -47,108 +47,76 @@ export const submitQuiz = async (req, res) => {
 
     const percent = (score / quiz.questions.length) * 100;
 
-    //  XP LOGIC
+    // ---------------------------
+    // XP LOGIC
+    // ---------------------------
     let xpEarned = 0;
 
-    if (percent >= 90) {
-      xpEarned = 50; // high score
-    } else if (percent >= 50) {
-      xpEarned = 30; // pass bonus
-    } else if (percent > 0) {
-      xpEarned = 10
-    } else {
-      xpEarned = 0; // fail → no XP
-    }
+    if (percent >= 90) xpEarned = 50;
+    else if (percent >= 50) xpEarned = 30;
+    else if (percent > 0) xpEarned = 10;
+    else xpEarned = 0;
 
-    // ⭐ XP DIFFERENCE LOGIC — Prevent double reward
+    // ⭐ Prevent XP decreasing — only store BEST xp
     const previousBestXp = user.quizXp.get(lessonId) || 0;
 
-    // Award only the difference
-    const xpDifference = Math.max(0, xpEarned - previousBestXp);
+    let xpDifference = 0;
 
-    // Add XP only if improved
-    user.xp += xpDifference;
+    if (xpEarned > previousBestXp) {
+      xpDifference = xpEarned - previousBestXp;
+      user.xp += xpDifference;
 
-    // Update stored best XP for this lesson
-    user.quizXp.set(lessonId, xpEarned);
-
-    // BLOCK XP IF USER ALREADY COMPLETED QUIZ
-    // Check if quiz already completed
-    const alreadyDone = user.progress.completedQuizzes.some(
-      id => id.toString() === lessonId
-    );
-
-    // ─────────────── STREAK LOGIC ───────────────
-    const today = new Date().toDateString();
-    const last = user.lastActiveDate;
-
-    if (!last) {
-      user.streak = 1;
-    } else if (last === today) {
-      // already counted today
-    } else {
-      const lastDate = new Date(last);
-      const todayDate = new Date(today);
-
-      // If lastActiveDate is in the FUTURE → reset
-      if (lastDate > todayDate) {
-        user.streak = 1;
-      } else {
-        const yesterday = new Date();
-        yesterday.setDate(yesterday.getDate() - 1);
-
-        const yesterdayStr = yesterday.toDateString();
-
-        if (last === yesterdayStr) {
-          user.streak += 1;
-        } else {
-          user.streak = 1;
-        }
-      }
+      // Only update best xp if improved
+      user.quizXp.set(lessonId, xpEarned);
     }
 
-    // QUIZ COMPLETION TRACKING (store in user.progress.completedQuizzes)
-    if (!user.progress.completedQuizzes.some(id => id.toString() === lessonId)) {
+    // ---------------------------
+    // Quiz completion tracking
+    // ---------------------------
+    const alreadyDone = user.progress.completedQuizzes.some(
+      (id) => id.toString() === lessonId
+    );
+
+    if (!alreadyDone) {
       user.progress.completedQuizzes.push(lessonId);
     }
 
-    // ACCURACY LOGIC (Correct Per-Lesson Tracking)
-
-    // ensure fields exist
+    // ---------------------------
+    // Accuracy Logic
+    // ---------------------------
     user.correctAnswers = user.correctAnswers || 0;
     user.totalQuestions = user.totalQuestions || 0;
     user.quizScores = user.quizScores || new Map();
 
     const quizQuestionCount = quiz.questions.length;
-
-    // Get previous score for this quiz (if any)
     const previousScore = user.quizScores.get(lessonId) || 0;
 
-    // If first attempt → add to totalQuestions
     if (!user.quizScores.has(lessonId)) {
       user.totalQuestions += quizQuestionCount;
     }
 
-    // Update correctAnswers (remove previous and add new)
     user.correctAnswers = user.correctAnswers - previousScore + score;
 
-    // Save new score for this lesson
     user.quizScores.set(lessonId, score);
 
-    // Calculate accuracy
-    user.accuracy = Math.round((user.correctAnswers / user.totalQuestions) * 100);
+    user.accuracy = Math.round(
+      (user.correctAnswers / user.totalQuestions) * 100
+    );
 
-    // accuracy stays between 0–100
     user.accuracy = Math.max(0, Math.min(user.accuracy, 100));
 
-    user.lastActiveDate = today;
+    updateStreak(user)
     await user.save();
 
+    // ---------------------------
+    // RESPONSE
+    // ---------------------------
     return res.json({
       score,
       total: quiz.questions.length,
       percent,
       xpEarned,
+      xpAdded: xpDifference,
       totalXP: user.xp,
       streak: user.streak,
       alreadyCompleted: alreadyDone,
@@ -225,3 +193,33 @@ export const deleteQuiz = async (req, res) => {
     res.status(500).json({ msg: "Failed to delete quiz" });
   }
 };
+
+export function updateStreak(user) {
+  const today = new Date().toDateString();
+  const last = user.lastActiveDate;
+
+  // First activity ever
+  if (!last) {
+    user.streak = 1;
+  } 
+  // Already active today → do nothing
+  else if (last === today) {
+    return;
+  } 
+  else {
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    const yesterdayStr = yesterday.toDateString();
+
+    // If last activity was yesterday → streak++
+    if (last === yesterdayStr) {
+      user.streak += 1;
+    } else {
+      // Missed a day → reset streak
+      user.streak = 1;
+    }
+  }
+
+  // Update last active date
+  user.lastActiveDate = today;
+}

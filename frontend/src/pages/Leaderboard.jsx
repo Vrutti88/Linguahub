@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { useOutletContext } from "react-router-dom";
 import { useState, useEffect } from "react";
 import api from "../api/client.js";
+import DemoDataButton from "../components/DemoDataButton";
 
 export default function Leaderboard() {
   const { user } = useOutletContext();
@@ -86,6 +87,7 @@ export default function Leaderboard() {
       >
         Real leaderboard integration coming soon.
       </motion.p> */}
+      <DemoDataButton />
     </div>
   );
 

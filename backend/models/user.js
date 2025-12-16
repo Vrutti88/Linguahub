@@ -7,7 +7,7 @@ const UserSchema = new mongoose.Schema({
   age: { type: Number, default: null },
   gender: { type: String, default: "" },
   country: { type: String, default: "" },
-  role: { type: String, default: "student" },
+  role: { type: String, default: "student",enum: ["student", "teacher"] },
   xp: { type: Number, default: 0 },
   lessonXp: { type: Map, of: Number, default: {} },
   quizXp: { type: Map, of: Number, default: {} },
@@ -68,7 +68,9 @@ UserSchema.pre("save", async function () {
     for (let v of this.quizXp.values()) total += v;
   }
 
-  this.xp = total;
+  const existingXP = this.xp || 0;
+
+  this.xp = Math.max(existingXP, total);
 });
 
 export default mongoose.model("User", UserSchema);

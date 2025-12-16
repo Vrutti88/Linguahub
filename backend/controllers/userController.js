@@ -1,5 +1,5 @@
 import User from '../models/user.js'
-// import Progress from "../models/progress.js";
+import {updateStreak} from "./quizController.js"
 
 export const getProfile = async (req, res) => {
   try {
@@ -89,6 +89,7 @@ export const updateProgress = async (req, res) => {
       xpGained = 20;
     }
 
+    updateStreak(user);
     await user.save();
 
     res.json({

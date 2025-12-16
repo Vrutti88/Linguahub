@@ -57,21 +57,21 @@ export default function Register() {
     <div className="min-h-screen bg-bg flex items-center justify-center p-6 relative overflow-hidden">
 
       {/* Background Effects */}
-      <motion.div
+      {/* <motion.div
         className="absolute top-10 left-10 text-3xl opacity-20 pointer-events-none"
         animate={{ y: [0, -10, 0], rotate: [0, 8, -8, 0] }}
         transition={{ repeat: Infinity, duration: 5 }}
       >
         ✨
-      </motion.div>
+      </motion.div> */}
 
-      <motion.div
+      {/* <motion.div
         className="absolute bottom-10 right-10 text-3xl opacity-20 pointer-events-none"
         animate={{ y: [0, 10, 0], rotate: [0, -8, 8, 0] }}
         transition={{ repeat: Infinity, duration: 6 }}
       >
         🌟
-      </motion.div>
+      </motion.div> */}
 
       <div className="absolute inset-0 bg-gradient-main opacity-20 blur-[130px]" />
 
@@ -206,7 +206,7 @@ function InputField({ delay, label, ...props }) {
       <input
         {...props}
         className="mt-1 w-full px-3 py-2 rounded-xl bg-bg border border-accent2/20 
-                   focus:ring-2 focus:ring-accent2/60 focus:outline-none text-textPrimary transition"
+                   focus:ring-2 focus:ring-accent2/60 text-sm text-textPrimary transition"
       />
     </motion.div>
   );
