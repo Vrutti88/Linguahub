@@ -290,7 +290,7 @@ export default function ManageQuizzes() {
     // ======================================================
     if (editingQuiz) {
         return (
-            <div className="space-y-8 text-textPrimary">
+            <div className="space-y-8 p-4 text-textPrimary">
                 {/* HEADER */}
                 <div className="space-y-1">
                     <h1 className="text-3xl font-extrabold text-headerHighlight drop-shadow-glow">
@@ -420,7 +420,7 @@ export default function ManageQuizzes() {
                 {/* ADD QUESTION */}
                 <button
                     onClick={addQuestion}
-                    className="w-full px-5 py-3 rounded-xl bg-accent3 text-bg font-semibold shadow-glow hover:scale-105 active:scale-95 transition-all"
+                    className="w-full px-5 py-3 rounded-xl bg-bg border border-b-[2.5px] text-textPrimary font-semibold shadow-glow"
                 >
                     ➕ Add New Question
                 </button>
@@ -429,14 +429,14 @@ export default function ManageQuizzes() {
                 <div className="flex justify-between items-center pt-4">
                     <button
                         onClick={() => setEditingQuiz(null)}
-                        className="px-5 py-2 rounded-xl bg-gray-500 text-white text-sm hover:bg-gray-600"
+                        className="px-5 py-2 rounded-xl bg-bg border border-b-[2.5px] text-textPrimary text-sm shadow-glow"
                     >
                         ← Back
                     </button>
 
                     <button
                         onClick={saveQuiz}
-                        className="px-6 py-3 bg-accent3 text-textPrimary font-bold rounded-xl shadow-glow hover:scale-105 active:scale-95 transition-all"
+                        className="px-5 py-2 bg-bg border border-b-[2.5px] text-textPrimary font-bold rounded-xl shadow-glow"
                     >
                         Save Quiz
                     </button>

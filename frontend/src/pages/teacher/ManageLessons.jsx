@@ -322,7 +322,7 @@ export default function ManageLessons() {
 
                 <button
                     onClick={addContent}
-                    className="w-full px-5 py-3 rounded-xl bg-accent3 text-bg font-semibold shadow-glow"
+                    className="w-full px-5 py-3 rounded-xl bg-bg border border-b-[2.5px] text-textPrimary font-semibold shadow-glow"
                 >
                     ➕ Add New Item
                 </button>
@@ -330,14 +330,14 @@ export default function ManageLessons() {
                 <div className="flex justify-between mt-4">
                     <button
                         onClick={() => setEditingLesson(null)}
-                        className="px-5 py-2 bg-gray-500 text-white rounded-xl"
+                        className="px-5 py-2 bg-bg border border-b-[2.5px] text-textPrimary rounded-xl"
                     >
                         ← Back
                     </button>
 
                     <button
                         onClick={saveLesson}
-                        className="px-6 py-3 bg-accent3 text-bg rounded-xl shadow-glow"
+                        className="px-5 py-2 bg-bg border border-b-[2.5px] text-textPrimary rounded-xl shadow-glow"
                     >
                         Save Lesson
                     </button>

@@ -96,7 +96,7 @@ export default function AddLesson() {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.45 }}
-            className="space-y-8 relative"
+            className="space-y-8 p-4 relative"
         >
             {/* Background Glow */}
             {/* <motion.div
@@ -347,7 +347,7 @@ export default function AddLesson() {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.92 }}
                     onClick={addItem}
-                    className="px-4 py-2 bg-gradient-main text-textPrimary rounded-xl shadow-glow font-semibold transition mr-4"
+                    className="px-4 py-2 bg-bg text-textPrimary border border-b-[2.5px] rounded-xl shadow-glow font-semibold transition mr-4"
                 >
                     ➕ Add Another Item
                 </motion.button>
@@ -357,7 +357,7 @@ export default function AddLesson() {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.92 }}
                     type="submit"
-                    className="px-6 py-2 bg-gradient-main text-textPrimary font-semibold rounded-xl shadow-glow transition"
+                    className="px-6 py-2 bg-bg text-textPrimary border border-b-[2.5px] font-semibold rounded-xl shadow-glow transition"
                 >
                     Save Lesson
                 </motion.button>

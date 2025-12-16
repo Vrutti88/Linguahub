@@ -94,7 +94,7 @@ export default function AddQuiz() {
     };
 
     return (
-        <div className="space-y-8">
+        <div className="space-y-8 p-4">
             {/* Header */}
             <motion.div
                 initial={{ opacity: 0, y: -6 }}
@@ -238,7 +238,7 @@ export default function AddQuiz() {
                 <button
                     type="button"
                     onClick={addQuestion}
-                    className="px-4 py-2 bg-gradient-main text-textPrimary rounded-xl shadow-glow font-semibold hover:scale-105 transition mr-4"
+                    className="px-4 py-2 bg-bg border border-b-[2.5px] text-textPrimary rounded-xl shadow-glow font-semibold hover:scale-105 transition mr-4"
                 >
                     ➕ Add Another Question
                 </button>
@@ -246,7 +246,7 @@ export default function AddQuiz() {
                 {/* Submit Button */}
                 <button
                     type="submit"
-                    className="px-4 py-2 rounded-xl bg-gradient-main text-textPrimary shadow-glow font-semibold hover:scale-105 active:scale-95 transition"
+                    className="px-4 py-2 rounded-xl bg-bg border border-b-[2.5px] text-textPrimary shadow-glow font-semibold hover:scale-105 active:scale-95 transition"
                 >
                     Save Quiz
                 </button>
