@@ -161,9 +161,9 @@ export default function ManageQuizzes() {
                 if (filled.length < 2) errors.push(`Q${qNum}: at least 2 options required.`);
 
                 if (
-                    typeof q.answer !== "number" ||
-                    !q.options[q.answer] ||
-                    !q.options[q.answer].trim()
+                    typeof q.answer !== "number" ||  // Ensures answer is an index number
+                    !q.options[q.answer] ||  // Checks if selected option exists
+                    !q.options[q.answer].trim()  //Ensures selected option is not empty
                 ) {
                     errors.push(`Q${qNum}: invalid correct option.`);
                 }
@@ -195,9 +195,7 @@ export default function ManageQuizzes() {
         }
     };
 
-    // ============================================================
-    // VIEW MODAL (Large 90% Full-Screen Modal)
-    // ============================================================
+    // VIEW MODAL
     const viewModal = viewingQuiz && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-md flex justify-center items-center z-40 p-4">
             <div
@@ -284,10 +282,7 @@ export default function ManageQuizzes() {
         </div>
     );
 
-
-    // ======================================================
-    //                 FULL PAGE EDIT VIEW
-    // ======================================================
+    // FULL PAGE EDIT VIEW
     if (editingQuiz) {
         return (
             <div className="space-y-8 p-4 text-textPrimary">
@@ -380,7 +375,7 @@ export default function ManageQuizzes() {
                             )}
 
                             {/* ANSWER + DELETE */}
-                            <div className="flex items-center justify-between">
+                            <div className="flex items-center justify-between gap-2">
                                 {/* MCQ correct answer */}
                                 {q.type === "mcq" && (
                                     <div className="flex-1">
@@ -445,9 +440,7 @@ export default function ManageQuizzes() {
         );
     }
 
-    // ======================================================
-    //                     QUIZ LIST VIEW
-    // ======================================================
+    // QUIZ LIST VIEW
     return (
         <div className="space-y-6 p-4">
             {viewModal}
@@ -465,10 +458,6 @@ export default function ManageQuizzes() {
 
 
                 {quizzes.map((q) => (
-                    // <div
-                    //     key={q._id}
-                    //     className="p-4 bg-panel border border-accent2/30 rounded-xl shadow-xl flex justify-between items-center"
-                    // >
                     <motion.div
                         initial={{ opacity: 0, y: 8 }}
                         animate={{ opacity: 1, y: 0 }}

@@ -1,4 +1,3 @@
-// src/pages/Welcome.jsx
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
@@ -16,7 +15,7 @@ export default function Welcome() {
 
     useEffect(() => {
         if (lottieRef.current) {
-            lottieRef.current.setSpeed(0.5); // ⬅️ Slow down to 50%
+            lottieRef.current.setSpeed(0.5); // ⬅Slow down to 50%
         }
     }, []);
 
@@ -41,7 +40,6 @@ export default function Welcome() {
             {/* Background Glow */}
             <div className="absolute inset-0 bg-gradient-main blur-[160px] opacity-20" />
 
-            {/* 🐤 MASCOT WITH WAVE ANIMATION */}
             <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -49,7 +47,6 @@ export default function Welcome() {
                 className="relative flex flex-col items-center"
             >
 
-                {/* Waving Bird */}
                 <motion.div
                     initial={{ opacity: 0, scale: 0.8, y: -10 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}

@@ -20,24 +20,6 @@ export default function LeaderboardCard({ rank, name, xp, streak }) {
       `}
     >
 
-      {/* Floating particles */}
-      {/* <motion.div
-        className="absolute -top-1 -left-1 text-lg opacity-50"
-        animate={{ y: [0, -4, 0] }}
-        transition={{ repeat: Infinity, duration: 2 }}
-      >
-        ✨
-      </motion.div> */}
-
-      {/* Rank flare */}
-      {/* <motion.div
-        className="absolute top-0 right-0 text-xl opacity-40"
-        animate={{ rotate: [0, 10, -10, 0] }}
-        transition={{ duration: 3, repeat: Infinity }}
-      >
-        {rank <= 3 ? "🌟" : ""}
-      </motion.div> */}
-
       {/* LEFT SECTION */}
       <div className="flex items-center gap-4">
         <motion.span
@@ -62,13 +44,6 @@ export default function LeaderboardCard({ rank, name, xp, streak }) {
               🔥
             </motion.span>
           </p>
-
-          {/* TEACHER EXTRA INFO */}
-          {role === "teacher" && (
-            <p className="text-[10px] text-accent3 mt-1">
-              XP Accuracy: {Math.round(xp / (streak || 1))} /day
-            </p>
-          )}
         </div>
       </div>
 

@@ -25,7 +25,7 @@ export default function AddLesson() {
     ];
 
     const [contents, setContents] = useState([
-        { src: "", target: "", pronunciation: "", imageUrl: "", audioUrl:"", videoUrl: "" },
+        { src: "", target: "", pronunciation: "", imageUrl: "", audioUrl: "", videoUrl: "" },
     ]);
 
     const [message, setMessage] = useState("");
@@ -35,14 +35,14 @@ export default function AddLesson() {
     const addItem = () => {
         setContents([
             ...contents,
-            { src: "", target: "", pronunciation: "", imageUrl: "", audioUrl:"", videoUrl: "" },
+            { src: "", target: "", pronunciation: "", imageUrl: "", audioUrl: "", videoUrl: "" },
         ]);
     };
 
     const removeItem = (i) => {
         if (contents.length === 1)
             return alert("At least one item is required.");
-        const updated = [...contents];
+        const updated = [...contents];  //copies array
         updated.splice(i, 1);
         setContents(updated);
     };
@@ -84,7 +84,7 @@ export default function AddLesson() {
             setLevel("beginner");
             setTime("");
             setImage("");
-            setContents([{ src: "", target: "", pronunciation: "", imageUrl: "",audioUrl: "",videoUrl: "" }]);
+            setContents([{ src: "", target: "", pronunciation: "", imageUrl: "", audioUrl: "", videoUrl: "" }]);
         } catch (err) {
             console.error(err);
             setMessage("❌ Failed to create lesson.");
@@ -98,12 +98,6 @@ export default function AddLesson() {
             transition={{ duration: 0.45 }}
             className="space-y-8 p-4 relative"
         >
-            {/* Background Glow */}
-            {/* <motion.div
-                className="absolute -top-32 -right-20 w-64 h-64 bg-gradient-main blur-3xl opacity-20 pointer-events-none"
-                animate={{ opacity: [0.15, 0.3, 0.15] }}
-                transition={{ duration: 6, repeat: Infinity }}
-            /> */}
 
             {/* Header */}
             <motion.div
@@ -142,7 +136,6 @@ export default function AddLesson() {
 
                 {/* Lesson Details Panel */}
                 <motion.div
-                    //   whileHover={{ scale: 1.01 }}
                     className="bg-panel p-5 rounded-2xl border border-accent2/30 shadow-xl space-y-4"
                 >
                     <motion.h2
@@ -221,17 +214,6 @@ export default function AddLesson() {
                             />
                         </div>
                     </div>
-
-                    {/* Thumbnail */}
-                    {/* <div>
-                        <label className="text-textSecondary text-xs">Thumbnail URL</label>
-                        <input
-                            value={image}
-                            onChange={(e) => setImage(e.target.value)}
-                            className="w-full mt-1 px-3 py-2 bg-bg border border-accent2/40 rounded-xl text-textPrimary"
-                            placeholder="Image URL"
-                        />
-                    </div> */}
                 </motion.div>
 
                 {/* CONTENT ITEMS */}
@@ -240,7 +222,7 @@ export default function AddLesson() {
                         Lesson Content
                     </h2>
 
-                    <AnimatePresence>
+                    <AnimatePresence>   {/* entry/exit animations */}
                         {contents.map((item, idx) => (
                             <motion.div
                                 key={idx}
@@ -281,61 +263,61 @@ export default function AddLesson() {
                                     />
                                 </div>
 
-                                    <div>
-                                        <label className="text-textSecondary text-xs">
-                                            Pronunciation
-                                        </label>
-                                        <input
-                                            value={item.pronunciation}
-                                            onChange={(e) =>
-                                                updateField(idx, "pronunciation", e.target.value)
-                                            }
-                                            className="w-full mt-1 px-3 py-2 bg-bg border border-accent2/40 rounded-xl text-textPrimary"
-                                            placeholder="e.g., oh-la"
-                                        />
-                                    </div>
+                                <div>
+                                    <label className="text-textSecondary text-xs">
+                                        Pronunciation
+                                    </label>
+                                    <input
+                                        value={item.pronunciation}
+                                        onChange={(e) =>
+                                            updateField(idx, "pronunciation", e.target.value)
+                                        }
+                                        className="w-full mt-1 px-3 py-2 bg-bg border border-accent2/40 rounded-xl text-textPrimary"
+                                        placeholder="e.g., oh-la"
+                                    />
+                                </div>
 
-                                    <div>
-                                        <label className="text-textSecondary text-xs">
-                                            Image URL
-                                        </label>
-                                        <input
-                                            value={item.imageUrl}
-                                            onChange={(e) =>
-                                                updateField(idx, "imageUrl", e.target.value)
-                                            }
-                                            className="w-full mt-1 px-3 py-2 bg-bg border border-accent2/40 rounded-xl text-textPrimary"
-                                            placeholder="Image URL"
-                                        />
-                                    </div>
+                                <div>
+                                    <label className="text-textSecondary text-xs">
+                                        Image URL
+                                    </label>
+                                    <input
+                                        value={item.imageUrl}
+                                        onChange={(e) =>
+                                            updateField(idx, "imageUrl", e.target.value)
+                                        }
+                                        className="w-full mt-1 px-3 py-2 bg-bg border border-accent2/40 rounded-xl text-textPrimary"
+                                        placeholder="Image URL"
+                                    />
+                                </div>
 
-                                    <div>
-                                        <label className="text-textSecondary text-xs">
-                                            Audio URL
-                                        </label>
-                                        <input
-                                            value={item.audioUrl}
-                                            onChange={(e) =>
-                                                updateField(idx, "audioUrl", e.target.value)
-                                            }
-                                            className="w-full mt-1 px-3 py-2 bg-bg border border-accent2/40 rounded-xl text-textPrimary"
-                                            placeholder="Audio URL"
-                                        />
-                                    </div>
+                                <div>
+                                    <label className="text-textSecondary text-xs">
+                                        Audio URL
+                                    </label>
+                                    <input
+                                        value={item.audioUrl}
+                                        onChange={(e) =>
+                                            updateField(idx, "audioUrl", e.target.value)
+                                        }
+                                        className="w-full mt-1 px-3 py-2 bg-bg border border-accent2/40 rounded-xl text-textPrimary"
+                                        placeholder="Audio URL"
+                                    />
+                                </div>
 
-                                    <div>
-                                        <label className="text-textSecondary text-xs">
-                                            Video URL
-                                        </label>
-                                        <input
-                                            value={item.videoUrl}
-                                            onChange={(e) =>
-                                                updateField(idx, "videoUrl", e.target.value)
-                                            }
-                                            className="w-full mt-1 px-3 py-2 bg-bg border border-accent2/40 rounded-xl text-textPrimary"
-                                            placeholder="Video URL"
-                                        />
-                                    </div>
+                                <div>
+                                    <label className="text-textSecondary text-xs">
+                                        Video URL
+                                    </label>
+                                    <input
+                                        value={item.videoUrl}
+                                        onChange={(e) =>
+                                            updateField(idx, "videoUrl", e.target.value)
+                                        }
+                                        className="w-full mt-1 px-3 py-2 bg-bg border border-accent2/40 rounded-xl text-textPrimary"
+                                        placeholder="Video URL"
+                                    />
+                                </div>
                             </motion.div>
                         ))}
                     </AnimatePresence>

@@ -1,4 +1,3 @@
-// src/pages/Lessons.jsx
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/client";
@@ -31,25 +30,10 @@ export default function Lessons() {
   return (
     <div className="h-full px-4 py-6 text-textPrimary relative">
 
-      {/* ✨ Ambient floating particles */}
-      {/* <motion.div
-        className="absolute top-6 right-10 text-2xl opacity-20 pointer-events-none"
-        animate={{ y: [0, -8, 0], rotate: [0, 8, -8, 0] }}
-        transition={{ repeat: Infinity, duration: 4 }}
-      >
-        ✨
-      </motion.div> */}
-
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-3xl font-extrabold text-headerHighlight drop-shadow-glow flex items-center gap-2">
             📚 Your Lessons
-            {/* <motion.span
-              animate={{ scale: [1, 1.15, 1] }}
-              transition={{ duration: 1.8, repeat: Infinity }}
-            >
-              ⭐
-            </motion.span> */}
           </h1>
 
           <p className="text-textSecondary text-sm">
@@ -58,9 +42,7 @@ export default function Lessons() {
         </div>
       </div>
 
-      {/* ===================================
-          LOADING STATE
-      ====================================== */}
+      {/* LOADING STATE*/}
       {loading ? (
         <div className="flex justify-center items-center mt-20">
           <motion.div
@@ -94,21 +76,13 @@ export default function Lessons() {
                 overflow-hidden group
               "
             >
-              {/* Floating sparkle */}
-              {/* <motion.div
-                className="absolute top-2 right-3 text-sm opacity-30 pointer-events-none"
-                animate={{ y: [0, -4, 0] }}
-                transition={{ duration: 2.5, repeat: Infinity }}
-              >
-                ✨
-              </motion.div> */}
               <motion.div
                 className="absolute top-0 left-0 w-full h-[3px] bg-accent2 opacity-0 group-hover:opacity-100"
                 animate={{ x: ["-100%", "100%"] }}
                 transition={{ repeat: Infinity, duration: 1.6, ease: "linear" }}
               ></motion.div>
 
-              {/* Animated XP/Time pill */}
+              {/* Animated Time pill */}
               <motion.div
                 className="
                   absolute top-3 right-3 text-[10px] px-2 py-1 
@@ -135,7 +109,7 @@ export default function Lessons() {
               <p className="text-xs text-accent3 capitalize mb-2 flex items-center gap-1">
                 {lesson.level || "beginner"}
                 <motion.span
-                  animate={{ scale: [1, 1.3, 1] }}
+                  animate={{ scale: [1, 1.2, 1] }}
                   transition={{ repeat: Infinity, duration: 2.2 }}
                 >
                   🎯
@@ -146,30 +120,6 @@ export default function Lessons() {
               <p className="text-xs text-textSecondary line-clamp-3 mb-4">
                 {lesson.description}
               </p>
-
-              {/* Fake progress bar */}
-              {/* <div>
-                <div className="w-full h-2 rounded-full bg-bg overflow-hidden border border-accent2/20">
-                  <motion.div
-                    className="h-full bg-gradient-main rounded-full"
-                    initial={{ width: "0%" }}
-                    animate={{ width: "34%" }}
-                    transition={{ duration: 1, ease: "easeOut" }}
-                  />
-                </div>
-
-                <p className="mt-1 text-[11px] text-textSecondary">
-                  Progress:{" "}
-                  <span className="text-textSecondary font-semibold">34%</span>
-                  <motion.span
-                    animate={{ scale: [1, 1.2, 1] }}
-                    transition={{ repeat: Infinity, duration: 1.6 }}
-                    className="inline-block ml-1"
-                  >
-                    🚀
-                  </motion.span>
-                </p>
-              </div> */}
             </motion.button>
           ))}
         </motion.div>

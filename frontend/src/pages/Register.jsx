@@ -1,4 +1,3 @@
-// src/pages/Register.jsx
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../api/client.js";
@@ -43,9 +42,9 @@ export default function Register() {
       setSuccess("Registration successful! Redirecting...");
       setTimeout(() => {
         if (res.data.user.role === "student") {
-          navigate("/welcome");  // 🟢 Student → welcom page
+          navigate("/welcome");  // Student - welcom page
         } else {
-          navigate("/Dashboard");        // 🔵 Teacher → dashboard
+          navigate("/Dashboard");        // Teacher - dashboard
         }
       }, 1200);
     } catch (err) {
@@ -55,23 +54,6 @@ export default function Register() {
 
   return (
     <div className="min-h-screen bg-bg flex items-center justify-center p-6 relative overflow-hidden">
-
-      {/* Background Effects */}
-      {/* <motion.div
-        className="absolute top-10 left-10 text-3xl opacity-20 pointer-events-none"
-        animate={{ y: [0, -10, 0], rotate: [0, 8, -8, 0] }}
-        transition={{ repeat: Infinity, duration: 5 }}
-      >
-        ✨
-      </motion.div> */}
-
-      {/* <motion.div
-        className="absolute bottom-10 right-10 text-3xl opacity-20 pointer-events-none"
-        animate={{ y: [0, 10, 0], rotate: [0, -8, 8, 0] }}
-        transition={{ repeat: Infinity, duration: 6 }}
-      >
-        🌟
-      </motion.div> */}
 
       <div className="absolute inset-0 bg-gradient-main opacity-20 blur-[130px]" />
 
@@ -140,24 +122,6 @@ export default function Register() {
 
           <InputField delay={0.35} label="Country" name="country" value={form.country} onChange={handleChange} required />
 
-          {/* <InputField delay={0.4} label="Native Language" name="nativeLanguage" value={form.nativeLanguage} onChange={handleChange} required /> */}
-
-          {/* <SelectField
-            delay={0.45}
-            label="Learning Goal"
-            name="learningGoal"
-            value={form.learningGoal}
-            onChange={handleChange}
-            required
-            options={[
-              ["", "Select a goal"],
-              ["travel", "Travel"],
-              ["career", "Career growth"],
-              ["study", "Studying abroad"],
-              ["fun", "Just for fun"],
-            ]}
-          /> */}
-
           {/* ROLE Field — Full width */}
           <div className="col-span-1 sm:col-span-2">
             <SelectField
@@ -196,9 +160,7 @@ export default function Register() {
   );
 }
 
-/* -----------------------------------------------
-   Reusable Components
------------------------------------------------- */
+/* Reusable Components */
 function InputField({ delay, label, ...props }) {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { delay } }}>

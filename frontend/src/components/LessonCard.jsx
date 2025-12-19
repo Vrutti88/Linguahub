@@ -22,14 +22,6 @@ export default function LessonCard({
         overflow-hidden group
       "
     >
-      {/* Floating Particle Effect */}
-      {/* <motion.div
-        className="absolute -top-1 -right-1 text-xl opacity-40"
-        animate={{ y: [0, -4, 0] }}
-        transition={{ repeat: Infinity, duration: 3 }}
-      >
-        ✨
-      </motion.div> */}
 
       {/* Moving Accent Line (Gamified highlight) */}
       <motion.div

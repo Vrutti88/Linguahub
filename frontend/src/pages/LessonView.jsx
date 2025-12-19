@@ -1,4 +1,3 @@
-// src/pages/LessonView.jsx
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../api/client";
@@ -18,7 +17,7 @@ export default function LessonView() {
     return url.includes("youtube.com") || url.includes("youtu.be");
   };
 
-  // 🔹 Convert YouTube URL -> embed format
+  // Convert YouTube URL -> embed format
   const toYouTubeEmbed = (url) => {
     try {
       if (url.includes("youtu.be")) {
@@ -33,9 +32,7 @@ export default function LessonView() {
     }
   };
 
-  // ---------------------------------------
   // Load Lesson + Progress
-  // ---------------------------------------
   const loadLesson = async () => {
     try {
       const res = await api.get(`/lesson/${id}`);
@@ -58,9 +55,7 @@ export default function LessonView() {
     loadLesson();
   }, [id]);
 
-  // ---------------------------------------
   // Loading
-  // ---------------------------------------
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -73,9 +68,7 @@ export default function LessonView() {
     );
   }
 
-  // ---------------------------------------
   // Empty lesson
-  // ---------------------------------------
   if (!lesson || !lesson.contents?.length) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center text-textSecondary">
@@ -90,9 +83,7 @@ export default function LessonView() {
     );
   }
 
-  // ---------------------------------------
   // Lesson logic
-  // ---------------------------------------
   const items = lesson.contents;
   const total = items.length;
   const current = items[index];
@@ -115,7 +106,7 @@ export default function LessonView() {
       setCompleted(true);
       // 🎉 XP Gained Animation
       setXpPopup(+20); // animation shows +20 XP
-      setTimeout(() => setXpPopup(null), 2000); // remove after 2s
+      setTimeout(() => setXpPopup(null), 3000); // remove after 2s
 
       alert("🎉 Lesson Completed! Quiz unlocked.");
 
@@ -146,16 +137,6 @@ export default function LessonView() {
     </motion.div>
   )}
 </AnimatePresence>
-
-      {/* ✨ Floating Particles */}
-      {/* <motion.div
-        className="absolute top-10 right-10 text-2xl opacity-20 pointer-events-none"
-        animate={{ y: [0, -8, 0], rotate: [0, 8, -8, 0] }}
-        transition={{ repeat: Infinity, duration: 4 }}
-      >
-        ✨
-      </motion.div> */}
-
       {/* Panel */}
       <motion.div
         initial={{ opacity: 0, y: 14 }}
@@ -166,30 +147,22 @@ export default function LessonView() {
           shadow-2xl p-6 relative overflow-hidden
         "
       >
-        {/* Glow */}
-        {/* <motion.div
-          className="absolute -top-32 -right-32 w-72 h-72 bg-gradient-main opacity-20 blur-3xl"
-          animate={{ opacity: [0.15, 0.3, 0.15] }}
-          transition={{ duration: 4, repeat: Infinity }}
-        /> */}
 
         {/* HEADER */}
         <div className="flex items-center justify-between mb-4 relative z-10">
           <div>
-            <p className="text-xs text-accent1 uppercase tracking-wide">Lesson</p>
-
             <motion.h1
               initial={{ opacity: 0, y: -3 }}
               animate={{ opacity: 1, y: 0 }}
               className="text-2xl font-extrabold text-headerHighlight drop-shadow-glow flex items-center gap-1"
             >
-              {lesson.title}
               <motion.span
                 animate={{ rotate: [0, -10, 10, 0] }}
                 transition={{ repeat: Infinity, duration: 3 }}
-              >
+                >
                 📘
               </motion.span>
+                {lesson.title}
             </motion.h1>
 
             <p className="text-[11px] text-textSecondary">

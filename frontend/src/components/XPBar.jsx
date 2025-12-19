@@ -69,20 +69,6 @@ export default function XPBar({ xp = 0 }) {
           />
         </motion.div>
       </div>
-
-      {/* Percent text */}
-      {/* <motion.span
-        animate={{
-          opacity: [1, 0.6, 1],
-        }}
-        transition={{
-          duration: 1.8,
-          repeat: Infinity,
-        }}
-        className="absolute bottom-1 right-3 text-[10px] text-accent2 font-semibold pointer-events-none"
-      >
-        {percent}%
-      </motion.span> */}
     </motion.div>
   );
 }

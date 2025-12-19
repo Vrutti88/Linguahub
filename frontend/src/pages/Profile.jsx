@@ -38,9 +38,6 @@ export default function Profile() {
             <h1 className="text-3xl font-extrabold text-headerHighlight drop-shadow-glow flex items-center gap-2">
               👤 Profile
             </h1>
-            <p className="text-xs text-textSecondary">
-              Your progress and learning stats.
-            </p>
           </motion.div>
         </div>
         <div>
@@ -75,11 +72,12 @@ export default function Profile() {
           </div>
         </div>
 
-        {/* STREAK */}
-        <StreakWidget streak={profile.streak} />
 
         {/* QUICK STATS */}
         {profile.role === "student" && (
+          <>
+          {/* STREAK */}
+          <StreakWidget streak={profile.streak} />
           <div>
             <h2 className="text-sm font-semibold text-headerHighlight mb-3">
               Quick Stats
@@ -92,6 +90,7 @@ export default function Profile() {
               <Stat label="Accuracy" value={`${profile.accuracy}%`} />
             </div>
           </div>
+          </>
         )}
       </div>
 
@@ -109,8 +108,6 @@ export default function Profile() {
           {profile.role === "student" && (
           <Info label="Daily Goal" value={`${profile?.onboarding?.dailyGoal || 0} min`} />
           )}
-          {/* <Info label="Native Language" value={profile.nativeLanguage || "—"} /> */}
-          {/* <Info label="Learning Goal" value={profile.learningGoal || "—"} /> */}
         </div>
       </div>
 

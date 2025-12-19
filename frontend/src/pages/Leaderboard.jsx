@@ -20,7 +20,7 @@ export default function Leaderboard() {
       // Convert backend result to your UI structure
       const formatted = data.map(u => ({
         name: u.name,
-        xp: u.xp ?? 0,
+        xp: u.xp ?? 0,  //If the left side is null or undefined, use the right side.
         streak: u.streak ?? 0,
         quizzes: u.quizzes ?? u.progress?.completedQuizzes?.length ?? 0,    // optional
         accuracy: u.accuracy ?? 0,   // optional
@@ -38,10 +38,7 @@ export default function Leaderboard() {
     fetchData();
   }, []);
 
-
-  // ==========================
   // STUDENT VIEW
-  // ==========================
   const StudentLeaderboard = () => (
     <div className="space-y-6 p-4">
       {/* HEADER */}
@@ -78,22 +75,11 @@ export default function Leaderboard() {
           />
         ))}
       </motion.div>
-
-      {/* <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.8 }}
-        transition={{ delay: 0.4 }}
-        className="mt-4 text-[11px] text-textSecondary"
-      >
-        Real leaderboard integration coming soon.
-      </motion.p> */}
       <DemoDataButton />
     </div>
   );
 
-  // ==========================
-  // TEACHER VIEW — STUDENT STATS (GAMIFIED UI)
-  // ==========================
+  // TEACHER VIEW — STUDENT STATS 
   const TeacherStats = () => (
     <div className="space-y-6">
       {/* HEADER */}
@@ -132,23 +118,6 @@ export default function Leaderboard() {
             overflow-hidden group
           "
           >
-            {/* Floating Glow Particle */}
-            {/* <motion.div
-            className="absolute -top-1 -right-1 text-lg opacity-30"
-            animate={{ y: [0, -4, 0] }}
-            transition={{ repeat: Infinity, duration: 2.5 }}
-          >
-            ✨
-          </motion.div> */}
-
-            {/* Rank Badge Glow */}
-            {/* <motion.div
-            className="absolute -left-2 top-1 text-xl opacity-20"
-            animate={{ rotate: [0, 10, -10, 0] }}
-            transition={{ duration: 3, repeat: Infinity }}
-          >
-            🌟
-          </motion.div> */}
 
             <div className="flex justify-between items-center">
               {/* LEFT SIDE */}
@@ -208,7 +177,6 @@ export default function Leaderboard() {
               </div>
             </div>
 
-            {/* Progress Bar for XP (Gamification!) */}
             {/* Progress Bar Based on Accuracy */}
             <motion.div
               className="mt-3 h-2 bg-bg/20 rounded-full overflow-hidden"
@@ -231,23 +199,10 @@ export default function Leaderboard() {
           </motion.div>
         ))}
       </motion.div>
-
-      {/* FOOTNOTE */}
-      {/* <motion.p
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 0.8 }}
-      transition={{ delay: 0.4 }}
-      className="mt-4 text-[11px] text-textSecondary"
-    >
-      Real API stats will be added once backend leaderboard is ready.
-    </motion.p> */}
     </div>
   );
 
-
-  // ===========================
   // PAGE SWITCH BASED ON ROLE
-  // ===========================
   if (loading)
     return <p className="text-textSecondary text-sm">Loading leaderboard...</p>;
 

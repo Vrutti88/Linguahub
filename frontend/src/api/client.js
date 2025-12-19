@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "axios"; //js lib for making http req
 
 const api = axios.create({
   baseURL: "http://localhost:8000/api",

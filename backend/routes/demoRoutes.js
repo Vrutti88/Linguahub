@@ -8,14 +8,12 @@ const router = express.Router();
 
 router.post("/demo/generate", async (req, res) => {
   try {
-    // ✅ Just insert, do NOT delete existing data
     await User.insertMany(users, { ordered: false });
     await Lesson.insertMany(lessons, { ordered: false });
     await Quiz.insertMany(quizzes, { ordered: false });
 
     res.status(200).json({
       success: true,
-      message: "Demo data added successfully (existing data preserved)",
       counts: {
         users: users.length,
         lessons: lessons.length,
@@ -23,7 +21,7 @@ router.post("/demo/generate", async (req, res) => {
       }
     });
   } catch (error) {
-    // Ignore duplicate key errors (E11000)
+    // Ignore duplicate data errors (E11000)
     if (error.code === 11000) {
       return res.status(200).json({
         success: true,

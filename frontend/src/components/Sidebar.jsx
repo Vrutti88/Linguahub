@@ -1,8 +1,6 @@
 import { NavLink,useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import Logo from "../assets/logo-removebg-preview.png"
-import Dashboard from "../pages/Dashboard";
-
+import Logo from "../assets/logo.png"
 
 export default function Sidebar({ user, onLogout }) {
   const role = user?.role || localStorage.getItem("role");
@@ -28,22 +26,6 @@ export default function Sidebar({ user, onLogout }) {
         relative overflow-hidden
       "
     >
-      {/* Floating Particles */}
-      {/* <motion.div
-        className="absolute top-5 left-3 text-lg opacity-25 pointer-events-none"
-        animate={{ y: [0, -6, 0] }}
-        transition={{ repeat: Infinity, duration: 3 }}
-      >
-        ✨
-      </motion.div> */}
-
-      {/* <motion.div
-        className="absolute bottom-6 right-4 text-xl opacity-20 pointer-events-none"
-        animate={{ x: [0, 6, 0] }}
-        transition={{ repeat: Infinity, duration: 2.7 }}
-      >
-        🌟
-      </motion.div> */}
 
       {/* Brand / Logo */}
       <div className="flex items-center gap-2 mb-2 cursor-pointer" onClick={() => navigate("/")}>

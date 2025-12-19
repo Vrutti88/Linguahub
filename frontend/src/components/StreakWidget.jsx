@@ -14,7 +14,6 @@ export default function StreakWidget({ streak = 0 }) {
       </motion.span>
     );
   }
-  
 
   const icon = streak >= 1 ? <AnimatedFlame /> : "🕊️";
 

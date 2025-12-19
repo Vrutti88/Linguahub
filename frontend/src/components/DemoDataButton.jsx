@@ -1,5 +1,5 @@
 import { useState } from "react";
-import api from "../api/client"; // ✅ use your axios instance
+import api from "../api/client";
 
 const DemoDataButton = () => {
   const [result, setResult] = useState(null);
@@ -11,7 +11,6 @@ const DemoDataButton = () => {
       setLoading(true);
       setError(null);
 
-      // ✅ baseURL already set in api client
       const res = await api.post("/demo/generate");
 
       setResult(res.data);
@@ -49,7 +48,6 @@ const DemoDataButton = () => {
       {result && (
         <div className="mt-15 text-textPrimary">
           <h4>Demo Data Generated Successfully ✅</h4>
-          <p>{result.message}</p>
           <ul>
             <li><strong>Users:</strong> {result.counts.users}</li>
             <li><strong>Lessons:</strong> {result.counts.lessons}</li>

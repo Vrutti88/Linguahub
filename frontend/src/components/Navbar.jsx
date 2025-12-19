@@ -30,7 +30,6 @@ export default function Navbar({ user }) {
     }
   }, [role]);
 
-
   return (
     <motion.header
       initial={{ opacity: 0, y: -10 }}
@@ -43,22 +42,6 @@ export default function Navbar({ user }) {
         relative overflow-hidden
       "
     >
-      {/* Floating Particles */}
-      {/* <motion.div
-        className="absolute top-0 left-3 text-xl opacity-30 pointer-events-none"
-        animate={{ y: [0, -6, 0] }}
-        transition={{ repeat: Infinity, duration: 3 }}
-      >
-        ✨
-      </motion.div>
-
-      <motion.div
-        className="absolute bottom-0 right-4 text-lg opacity-20 pointer-events-none"
-        animate={{ x: [0, 6, 0] }}
-        transition={{ repeat: Infinity, duration: 2.5 }}
-      >
-        🌟
-      </motion.div> */}
 
       {/* MOBILE BRAND */}
       <div className="md:hidden flex items-center gap-2">
@@ -83,7 +66,7 @@ export default function Navbar({ user }) {
               🔥
             </motion.span> */}
           </h1>
-          <p className="text-[10px] text-textSecondary">Learn daily, playfully</p>
+          <p className="text-[10px] text-textSecondary">Gamified learning</p>
         </div>
       </div>
 
@@ -133,7 +116,7 @@ export default function Navbar({ user }) {
         </motion.div>
 
         {/* USER INFO */}
-        <div className="flex gap-2.5 cursor-pointer" onClick={() => navigate("Profile")}>
+        <div className="flex gap-2 cursor-pointer" onClick={() => navigate("Profile")}>
           <motion.div
             initial={{ opacity: 0, x: 6 }}
             animate={{ opacity: 1, x: 0 }}

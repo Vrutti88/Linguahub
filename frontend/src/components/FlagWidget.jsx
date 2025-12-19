@@ -1,18 +1,18 @@
 import { motion } from "framer-motion";
 
 export const LANGUAGES = [
-    { name: "Spanish", flag: "https://flagcdn.com/w80/es.png", learners: "48.8M" },
-    { name: "French", flag: "https://flagcdn.com/w80/fr.png", learners: "27.2M" },
-    { name: "Japanese", flag: "https://flagcdn.com/w80/jp.png", learners: "24.4M" },
-    { name: "German", flag: "https://flagcdn.com/w80/de.png", learners: "18.9M" },
-    { name: "Korean", flag: "https://flagcdn.com/w80/kr.png", learners: "17.8M" },
-    { name: "Italian", flag: "https://flagcdn.com/w80/it.png", learners: "13.4M" },
-    { name: "Chinese", flag: "https://flagcdn.com/w80/cn.png", learners: "11.8M" },
-    { name: "Hindi", flag: "https://flagcdn.com/w80/in.png", learners: "11.7M" },
-    { name: "Russian", flag: "https://flagcdn.com/w80/ru.png", learners: "9.81M" },
-    { name: "Arabic", flag: "https://flagcdn.com/w80/sa.png", learners: "8.46M" },
-    { name: "Portuguese", flag: "https://flagcdn.com/w80/br.png", learners: "6.12M" },
-    { name: "English", flag: "https://flagcdn.com/w80/us.png", learners: "21.9M" },
+    { name: "Spanish", flag: "https://flagcdn.com/w80/es.png" },
+    { name: "French", flag: "https://flagcdn.com/w80/fr.png" },
+    { name: "Japanese", flag: "https://flagcdn.com/w80/jp.png" },
+    { name: "German", flag: "https://flagcdn.com/w80/de.png" },
+    { name: "Korean", flag: "https://flagcdn.com/w80/kr.png" },
+    { name: "Italian", flag: "https://flagcdn.com/w80/it.png" },
+    { name: "Chinese", flag: "https://flagcdn.com/w80/cn.png" },
+    { name: "Hindi", flag: "https://flagcdn.com/w80/in.png" },
+    { name: "Russian", flag: "https://flagcdn.com/w80/ru.png" },
+    { name: "Arabic", flag: "https://flagcdn.com/w80/sa.png" },
+    { name: "Portuguese", flag: "https://flagcdn.com/w80/br.png" },
+    { name: "English", flag: "https://flagcdn.com/w80/us.png" },
   ];
   
 

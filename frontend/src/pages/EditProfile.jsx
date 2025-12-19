@@ -122,9 +122,7 @@ export default function EditProfile() {
   );
 }
 
-/* -------------------------
-   REUSABLE COMPONENTS
--------------------------- */
+/* REUSABLE COMPONENTS */
 
 function Input({ label, ...props }) {
   return (

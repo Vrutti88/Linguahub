@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../api/client.js";
 import { motion } from "framer-motion";
+import Logo from "../assets/logo.png"
 
 export default function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -29,7 +30,7 @@ export default function Login() {
   return (
     <div className="min-h-screen bg-bg flex items-center justify-center p-6 relative overflow-hidden">
 
-      {/* ✨ Animated Background Glow */}
+      {/* Animated Background Glow */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 0.25 }}
@@ -37,24 +38,7 @@ export default function Login() {
         className="absolute inset-0 bg-gradient-main blur-[140px]"
       />
 
-      {/* ⭐ Floating animation elements */}
-      {/* <motion.div
-        className="absolute top-10 left-10 text-3xl text-white/20"
-        animate={{ y: [0, -12, 0], rotate: [-5, 5, -5] }}
-        transition={{ repeat: Infinity, duration: 6 }}
-      >
-        ✨
-      </motion.div> */}
-
-      {/* <motion.div
-        className="absolute bottom-10 right-10 text-4xl text-white/20"
-        animate={{ y: [0, 14, 0], rotate: [3, -3, 3] }}
-        transition={{ repeat: Infinity, duration: 5 }}
-      >
-        🌟
-      </motion.div> */}
-
-      {/* 🚀 Login Card */}
+      {/* Login Card */}
       <motion.div
         initial={{ opacity: 0, y: 18, scale: 0.96 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -75,7 +59,7 @@ export default function Login() {
             className="w-12 h-12 rounded-2xl bg-gradient-main flex items-center justify-center 
                        text-2xl font-extrabold text-textPrimary shadow-glow"
           >
-            L
+            <img src={Logo} alt="" />
           </motion.div>
 
           <div>

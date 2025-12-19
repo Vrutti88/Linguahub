@@ -4,6 +4,8 @@ import AppLayout from "./layout/AppLayout.jsx";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import Welcome from "./pages/Welcome.jsx";
+
+//studen pages
 import Dashboard from "./pages/Dashboard.jsx";
 import Lessons from "./pages/Lessons.jsx";
 import LessonView from "./pages/LessonView.jsx";
@@ -15,7 +17,7 @@ import Profile from "./pages/Profile.jsx";
 import EditProfile from "./pages/EditProfile.jsx";
 import OnboardingFlow from "./pages/OnboardingFlow.jsx";
 
-// --- NEW teacher pages ---
+// teacher pages
 import AddLesson from "./pages/teacher/AddLesson.jsx";
 import AddQuiz from "./pages/teacher/AddQuiz.jsx";
 import ManageLessons from "./pages/teacher/ManageLessons.jsx";

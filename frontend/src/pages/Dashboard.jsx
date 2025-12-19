@@ -8,15 +8,6 @@ export default function Dashboard() {
   return (
     <div className="space-y-10 relative">
 
-      {/* ✨ Floating ambient particles */}
-      {/* <motion.div
-        className="absolute -top-2 right-4 text-xl opacity-20 pointer-events-none"
-        animate={{ y: [0, -6, 0], rotate: [0, 10, -10, 0] }}
-        transition={{ duration: 4, repeat: Infinity }}
-      >
-        ✨
-      </motion.div> */}
-
       {/* HEADER */}
       <motion.div
         initial={{ opacity: 0, y: -8 }}
@@ -46,27 +37,9 @@ export default function Dashboard() {
               : "Keep your streak alive and earn more XP today!"}
           </motion.p>
         </div>
-
-        {/* {role === "teacher" && (
-          <motion.span
-            initial={{ scale: 0.85 }}
-            animate={{ scale: 1 }}
-            className="px-3 py-1 rounded-xl bg-accent1 text-bg text-xs shadow-glow uppercase tracking-wide flex items-center gap-1"
-          >
-            Teacher Mode
-            <motion.span
-              animate={{ rotate: [0, 8, -8, 0] }}
-              transition={{ repeat: Infinity, duration: 2 }}
-            >
-              🎓
-            </motion.span>
-          </motion.span>
-        )} */}
       </motion.div>
 
-      {/* ============================
-          STUDENT DASHBOARD
-      ================================= */}
+      {/* STUDENT DASHBOARD */}
       {role === "student" && (
         <motion.div
           className="grid md:grid-cols-3 gap-8"
@@ -100,9 +73,7 @@ export default function Dashboard() {
         </motion.div>
       )}
 
-      {/* ============================
-          TEACHER DASHBOARD
-      ================================= */}
+      {/* TEACHER DASHBOARD */}
       {role === "teacher" && (
         <motion.div
           className="grid md:grid-cols-3 gap-8"
@@ -151,49 +122,11 @@ export default function Dashboard() {
           />
         </motion.div>
       )}
-
-      {/* ============================
-          ACHIEVEMENTS (Students Only)
-      ================================= */}
-      {/* {role === "student" && (
-        <motion.div
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.4 }}
-          className="bg-panel border border-accent1/20 rounded-2xl p-5 shadow-xl text-textSecondary text-sm relative"
-        >
-          {/* Floating flares */}
-          {/* <motion.div
-            className="absolute top-3 right-3 text-lg opacity-30"
-            animate={{ rotate: [0, 20, -20, 0] }}
-            transition={{ duration: 3, repeat: Infinity }}
-          >
-            🌟
-          </motion.div>
-
-          <h3 className="font-bold text-headerHighlight mb-2 flex items-center gap-1">
-            Achievement badges (coming soon)
-            <motion.span
-              animate={{ scale: [1, 1.15, 1] }}
-              transition={{ repeat: Infinity, duration: 2 }}
-            >
-              🎖
-            </motion.span>
-          </h3>
-
-          <p className="text-xs">
-            Earn badges for streaks, XP milestones and completed paths ✨
-          </p>
-        </motion.div>
-      )} */}
-
     </div>
   );
 }
 
-/* ==========================
-   Reusable Gamified Dashboard Card
-=========================== */
+/* Reusable Gamified Dashboard Card */
 function DashCard({ to, icon, title, desc, glow }) {
   return (
     <Link
@@ -205,14 +138,6 @@ function DashCard({ to, icon, title, desc, glow }) {
         relative overflow-hidden
       `}
     >
-      {/* Floating particle */}
-      {/* <motion.div
-        className="absolute top-2 right-3 text-lg opacity-30 pointer-events-none"
-        animate={{ y: [0, -5, 0] }}
-        transition={{ repeat: Infinity, duration: 2.5 }}
-      >
-        ✨
-      </motion.div> */}
 
       <motion.span
         className="text-5xl"

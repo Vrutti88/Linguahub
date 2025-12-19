@@ -1,4 +1,3 @@
-// src/pages/Quiz.jsx
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../api/client.js";
@@ -20,9 +19,7 @@ export default function Quiz() {
   const [result, setResult] = useState(null);
   const [xpPopup, setXpPopup] = useState(null);
 
-  // -------------------------------------------------
   // Load lesson + quiz
-  // -------------------------------------------------
   const fetchQuiz = async () => {
     try {
       const lessonRes = await api.get(`/lesson/${lessonId}`);
@@ -47,9 +44,7 @@ export default function Quiz() {
     fetchQuiz();
   }, [lessonId]);
 
-  // -------------------------------------------------
   // Loading
-  // -------------------------------------------------
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-[200px] text-textSecondary">
@@ -62,9 +57,7 @@ export default function Quiz() {
     );
   }
 
-  // -------------------------------------------------
   // No Quiz Found
-  // -------------------------------------------------
   if (!quiz?.questions?.length) {
     return (
       <motion.div
@@ -88,9 +81,7 @@ export default function Quiz() {
     );
   }
 
-  // -------------------------------------------------
   // Quiz Logic
-  // -------------------------------------------------
   const total = quiz.questions.length;
   const current = quiz.questions[currentIdx];
 
@@ -115,9 +106,7 @@ export default function Quiz() {
   const nextQuestion = () =>
     currentIdx < total - 1 && setCurrentIdx((i) => i + 1);
 
-  // -------------------------------------------------
   // Submit Quiz
-  // -------------------------------------------------
   const handleSubmit = async () => {
     if (answers.some((a) => a === null || a === "")) {
       if (!window.confirm("Some questions are unanswered. Submit anyway?"))
@@ -130,16 +119,16 @@ export default function Quiz() {
       const res = await api.post("/quiz/submit", { lessonId, answers });
       const gained = res.data.xpEarned || 0;
 
-      // ⭐ SHOW XP POPUP
+      // SHOW XP POPUP
       setXpPopup(gained);
       setTimeout(() => setXpPopup(null), 2000);
 
-      // ⭐ Delay result screen so popup is visible
+      // Delay result screen so popup is visible
       setTimeout(() => {
         setResult(res.data);
       }, 900);
 
-      // ⭐ Delay alert so animation STILL shows
+      // Delay alert so animation STILL shows
       setTimeout(() => {
         alert("🎉 Quiz Completed!");
       }, 1000);
@@ -161,9 +150,7 @@ export default function Quiz() {
     }
   };
 
-  // -------------------------------------------------
   // RESULT SCREEN
-  // -------------------------------------------------
   if (result) {
     const percent = Math.round((result.score / result.total) * 100);
     const success = percent >= 70;
@@ -243,9 +230,7 @@ export default function Quiz() {
     );
   }
 
-  // -------------------------------------------------
   // MAIN QUIZ PAGE
-  // -------------------------------------------------
   return (
     <>
       <AnimatePresence>
@@ -269,15 +254,6 @@ export default function Quiz() {
         )}
       </AnimatePresence>
       <div className="space-y-6 text-textPrimary relative">
-
-        {/* Floating Sparkle */}
-        {/* <motion.div
-        className="absolute right-4 top-0 text-xl opacity-20"
-        animate={{ y: [0, -6, 0] }}
-        transition={{ duration: 4, repeat: Infinity }}
-      >
-        ✨
-      </motion.div> */}
 
         {/* HEADER */}
         <motion.div
@@ -327,7 +303,7 @@ export default function Quiz() {
             {normalizedQuestion.question}
           </p>
 
-          {/* ========== MCQ (Duolingo-Style Bubbles) ========== */}
+          {/* MCQ */}
           {normalizedQuestion.type === "mcq" && (
             <div className="grid sm:grid-cols-2 gap-4 mt-4">
               {normalizedQuestion.options.map((opt, idx) => {
@@ -353,7 +329,7 @@ export default function Quiz() {
             </div>
           )}
 
-          {/* ========== FIB ========== */}
+          {/* FIB */}
           {normalizedQuestion.type === "fib" && (
             <input
               value={answers[currentIdx] ?? ""}
@@ -405,9 +381,7 @@ export default function Quiz() {
   );
 }
 
-  /* =====================================
-   Build Review Data (NO BACKEND CHANGE)
-===================================== */
+  /* Build Review Data */
 function buildReviewData(quiz, answers) {
   if (!quiz?.questions) return [];
 

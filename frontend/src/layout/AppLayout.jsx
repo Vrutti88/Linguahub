@@ -32,29 +32,12 @@ export default function AppLayout() {
   return (
     <div className="min-h-screen w-full bg-bg flex overflow-hidden relative">
 
-      {/* 🌈 Animated Ambient Background Glow */}
+      {/* Animated Ambient Background Glow */}
       <motion.div
         className="absolute inset-0 bg-gradient-main opacity-20 blur-[140px] pointer-events-none"
         animate={{ opacity: [0.15, 0.25, 0.15] }}
         transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
       />
-
-      {/* ✨ Floating Decorative Particles */}
-      {/* <motion.div
-        className="absolute top-12 left-10 text-2xl opacity-20 pointer-events-none"
-        animate={{ y: [0, -10, 0], rotate: [0, 10, -10, 0] }}
-        transition={{ duration: 5, repeat: Infinity }}
-      >
-        ✨
-      </motion.div> */}
-
-      {/* <motion.div
-        className="absolute bottom-16 right-16 text-xl opacity-15 pointer-events-none"
-        animate={{ y: [0, 6, 0], x: [0, -6, 0] }}
-        transition={{ duration: 4, repeat: Infinity }}
-      >
-        🌟
-      </motion.div> */}
 
       {/* Sidebar */}
       <Sidebar user={user} onLogout={logout} />

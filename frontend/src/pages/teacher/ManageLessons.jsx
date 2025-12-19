@@ -70,7 +70,7 @@ export default function ManageLessons() {
         level: "beginner",
         language: "",
         estimatedTime: "",
-        image:"",
+        image: "",
         contents: [],
     });
 
@@ -164,9 +164,7 @@ export default function ManageLessons() {
         }
     };
 
-    // -------------------------------------------------------------------
-    // FULL PAGE EDITOR (LIKE QUIZ EDITOR) — 100% WORKING
-    // -------------------------------------------------------------------
+    // FULL PAGE EDITOR  
     if (editingLesson) {
         return (
             <div className="space-y-6 px-4 pb-10 text-textPrimary">
@@ -236,17 +234,6 @@ export default function ManageLessons() {
                             />
                         </div>
                     </div>
-
-                    {/* <div>
-                        <label className="text-textSecondary text-xs">Thumbnail URL</label>
-                        <input
-                            value={editData.image}
-                            onChange={(e) => updateField("image", e.target.value)}
-                            className="w-full mt-1 px-3 py-2 bg-bg border border-accent2/40 rounded-xl text-textPrimary"
-                            placeholder="Image URL"
-                        />
-                    </div> */}
-
                 </div>
 
                 {/* ITEMS */}
@@ -347,9 +334,7 @@ export default function ManageLessons() {
         );
     }
 
-    // -------------------------------------------------------------------
     // NORMAL VIEW
-    // -------------------------------------------------------------------
     return (
         <div className="space-y-6 px-4">
 
@@ -376,7 +361,7 @@ export default function ManageLessons() {
 
             {/* VIEW MODAL */}
             {viewLesson && (
-                <div className="fixed inset-0 bg-black/70 backdrop-blur-xl flex justify-center items-center z-50 p-4">
+                <div className="fixed inset-0 bg-black/70 backdrop-blur-xl text-textPrimary flex justify-center items-center z-50 p-4">
 
                     <div className="bg-panel border border-accent2/40 rounded-3xl shadow-2xl 
                     w-[90%] md:w-[70%] lg:w-[55%] 
@@ -400,7 +385,7 @@ export default function ManageLessons() {
                             {viewLesson.description}
                         </p>
 
-                        <hr className="border-accent2/40" />
+                        <hr className="border-0 h-[2px] w-full bg-gradient-to-r from-transparent via-accent3 to-transparent rounded-full" />
 
                         {/* CONTENT */}
                         <div className="space-y-5">
@@ -411,19 +396,19 @@ export default function ManageLessons() {
                        hover:shadow-glow transition-all duration-200 space-y-3"
                                 >
                                     {/* Word + Translation */}
-                                    <p className="text-lg font-bold text-accent3">
+                                    <p className="text-lg font-bold text-textPrimary">
                                         {idx + 1}. {item.src}
                                     </p>
 
                                     <p className="text-sm text-textPrimary">
-                                        <span className="font-semibold text-accent1">Translation:</span>{" "}
+                                        <span className="font-semibold text-textPrimary">Translation:</span>{" "}
                                         {item.target}
                                     </p>
 
                                     {/* Pronunciation */}
                                     {item.pronunciation && (
-                                        <p className="text-xs text-accent2 font-medium bg-accent2/10 px-2 py-1 rounded-lg inline-block">
-                                            <span className="font-semibold text-accent1">Pronunciation:</span>{" "} {item.pronunciation}
+                                        <p className="text-xs text-textPrimary font-medium bg-accent2/10 px-2 py-1 rounded-lg inline-block">
+                                            <span className="font-semibold text-textPrimary">Pronunciation:</span>{" "} {item.pronunciation}
                                         </p>
                                     )}
 
@@ -618,9 +603,6 @@ export default function ManageLessons() {
                     </div>
                 </div>
             )}
-
-
-
         </div>
     );
 }

@@ -3,20 +3,20 @@ import { useNavigate } from "react-router-dom";
 import api from "../api/client";
 import { motion, AnimatePresence } from "framer-motion";
 
-// 🌍 Language List (unchanged)
+// Language List (unchanged)
 const LANGUAGES = [
-  { name: "Spanish", flag: "https://flagcdn.com/w80/es.png", learners: "48.8M" },
-  { name: "French", flag: "https://flagcdn.com/w80/fr.png", learners: "27.2M" },
-  { name: "Japanese", flag: "https://flagcdn.com/w80/jp.png", learners: "24.4M" },
-  { name: "German", flag: "https://flagcdn.com/w80/de.png", learners: "18.9M" },
-  { name: "Korean", flag: "https://flagcdn.com/w80/kr.png", learners: "17.8M" },
-  { name: "Italian", flag: "https://flagcdn.com/w80/it.png", learners: "13.4M" },
-  { name: "Chinese", flag: "https://flagcdn.com/w80/cn.png", learners: "11.8M" },
-  { name: "Hindi", flag: "https://flagcdn.com/w80/in.png", learners: "11.7M" },
-  { name: "Russian", flag: "https://flagcdn.com/w80/ru.png", learners: "9.81M" },
-  { name: "Arabic", flag: "https://flagcdn.com/w80/sa.png", learners: "8.46M" },
-  { name: "Portuguese", flag: "https://flagcdn.com/w80/br.png", learners: "6.12M" },
-  { name: "English", flag: "https://flagcdn.com/w80/us.png", learners: "21.9M" },
+  { name: "Spanish", flag: "https://flagcdn.com/w80/es.png" },
+  { name: "French", flag: "https://flagcdn.com/w80/fr.png" },
+  { name: "Japanese", flag: "https://flagcdn.com/w80/jp.png" },
+  { name: "German", flag: "https://flagcdn.com/w80/de.png" },
+  { name: "Korean", flag: "https://flagcdn.com/w80/kr.png" },
+  { name: "Italian", flag: "https://flagcdn.com/w80/it.png" },
+  { name: "Chinese", flag: "https://flagcdn.com/w80/cn.png" },
+  { name: "Hindi", flag: "https://flagcdn.com/w80/in.png" },
+  { name: "Russian", flag: "https://flagcdn.com/w80/ru.png" },
+  { name: "Arabic", flag: "https://flagcdn.com/w80/sa.png" },
+  { name: "Portuguese", flag: "https://flagcdn.com/w80/br.png" },
+  { name: "English", flag: "https://flagcdn.com/w80/us.png" },
 ];
 
 export default function OnboardingFlow() {
@@ -59,36 +59,10 @@ export default function OnboardingFlow() {
   return (
     <div className="min-h-screen w-full bg-bg p-6 flex justify-center items-center relative overflow-hidden">
 
-      {/* ⭐ ANIMATED FLOATING PARTICLES */}
-      {/* <motion.div
-        className="absolute top-10 left-10 text-4xl opacity-25 pointer-events-none"
-        animate={{ y: [0, -12, 0], rotate: [0, 8, -8, 0] }}
-        transition={{ repeat: Infinity, duration: 6 }}
-      >
-        ✨
-      </motion.div> */}
-
-      {/* <motion.div
-        className="absolute bottom-10 right-12 text-5xl opacity-20 pointer-events-none"
-        animate={{ y: [0, 14, 0], rotate: [0, -6, 6, 0] }}
-        transition={{ repeat: Infinity, duration: 5 }}
-      >
-        🌟
-      </motion.div> */}
-
-      {/* ⭐ FLOATING MASCOT */}
-      {/* <motion.div
-        className="absolute top-6 right-1/2 translate-x-1/2 text-5xl"
-        animate={{ y: [0, -10, 0], rotate: [-4, 4, -4] }}
-        transition={{ repeat: Infinity, duration: 4 }}
-      >
-        🐤
-      </motion.div> */}
-
-      {/* ⭐ BACKGROUND GLOW */}
+      {/* BACKGROUND GLOW */}
       <div className="absolute inset-0 bg-gradient-main opacity-20 blur-[140px]"></div>
 
-      {/* ⭐ MAIN CARD */}
+      {/* MAIN CARD */}
       <motion.div
         initial={{ opacity: 0, scale: 0.92 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -262,7 +236,6 @@ export default function OnboardingFlow() {
             </motion.div>
           </AnimatePresence>
         </div>
-
       </motion.div>
     </div>
   );

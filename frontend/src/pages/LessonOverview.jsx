@@ -1,4 +1,3 @@
-// src/pages/LessonOverview.jsx
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../api/client";
@@ -12,9 +11,7 @@ export default function LessonOverview() {
   const [loading, setLoading] = useState(true);
   const [isCompleted, setIsCompleted] = useState(false);
 
-  // -------------------------------
   // LOAD LESSON + PROGRESS STATUS
-  // -------------------------------
   const loadLesson = async () => {
     try {
       const res = await api.get(`/lesson/${id}`);
@@ -40,9 +37,7 @@ export default function LessonOverview() {
   const goToQuiz = () => navigate(`/quiz/${id}`);
   const goBack = () => navigate("/lessons");
 
-  // =====================================
   // LOADING STATE
-  // =====================================
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center text-textSecondary">
@@ -76,18 +71,7 @@ export default function LessonOverview() {
   return (
     <div className="min-h-screen px-4 py-6 flex justify-center relative">
 
-      {/* ✨ Ambient floating sparkles */}
-      {/* <motion.div
-        className="absolute top-10 right-12 text-2xl opacity-20 pointer-events-none"
-        animate={{ y: [0, -8, 0], rotate: [0, 10, -10, 0] }}
-        transition={{ duration: 4, repeat: Infinity }}
-      >
-        ✨
-      </motion.div> */}
-
-      {/* =========================
-          MAIN PANEL
-      ========================== */}
+      {/* MAIN PANEL */}
       <motion.div
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
@@ -97,12 +81,6 @@ export default function LessonOverview() {
           relative overflow-hidden
         "
       >
-        {/* Glow Background */}
-        {/* <motion.div
-          className="absolute -top-32 -right-32 w-80 h-80 bg-gradient-main opacity-20 blur-3xl pointer-events-none"
-          animate={{ opacity: [0.15, 0.3, 0.15] }}
-          transition={{ duration: 4, repeat: Infinity }}
-        /> */}
 
         {/* HEADER */}
         <div className="flex justify-between items-start mb-5 relative z-10">
@@ -212,9 +190,7 @@ export default function LessonOverview() {
   );
 }
 
-/* ===========================================
-   SMALL INFO CARD (Animated)
-=========================================== */
+/* SMALL INFO CARD */
 function InfoCard({ label, value }) {
   return (
     <motion.div
