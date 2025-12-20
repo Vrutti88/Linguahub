@@ -441,7 +441,7 @@ export const lessons = [
         ]
     },
     {
-        _id: "65f1000000000000000000026", title: "Arabic Daily Words", description: "Daily Arabic", language: "Arabic", level: "beginner", estimatedTime: "10 mins", order: 2, createdBy: "65f000000000000000000007",
+        _id: "65f100000000000000000026", title: "Arabic Daily Words", description: "Daily Arabic", language: "Arabic", level: "beginner", estimatedTime: "10 mins", order: 2, createdBy: "65f000000000000000000007",
         contents: [
             { src: "شكرا", target: "Thank you", pronunciation: "shuk-ran", imageUrl: "/img/shukran.png", audioUrl: "/audio/shukran.mp3", videoUrl: "/video/shukran.mp4" }
         ]

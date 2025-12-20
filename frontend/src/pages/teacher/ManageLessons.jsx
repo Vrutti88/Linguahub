@@ -77,7 +77,7 @@ export default function ManageLessons() {
     // LOAD LESSONS
     const loadLessons = async () => {
         try {
-            const res = await api.get("/lessons");
+            const res = await api.get("/teacher/lessons");
             setLessons(res.data);
         } catch (err) {
             console.error(err);

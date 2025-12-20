@@ -20,5 +20,7 @@ router.get("/lesson/:id", auth, getLessonById);
 router.post("/teacher/lesson", auth, teacher, createLesson);
 router.put("/teacher/lesson/:id", auth, teacher, updateLesson);
 router.delete("/teacher/lesson/:id", auth, teacher, deleteLesson);
+router.get("/teacher/lessons", auth, getLessons);
+
 
 export default router;

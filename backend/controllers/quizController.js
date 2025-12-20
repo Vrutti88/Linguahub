@@ -167,7 +167,23 @@ export const addOrUpdateQuiz = async (req, res) => {
 // Teacher: Get all quizzes
 export const getAllQuizzes = async (req, res) => {
   try {
-    const quizzes = await Quiz.find()
+    // Find lessons created by this teacher
+    const lessons = await Lesson.find(
+      { createdBy: req.user.id },
+      "_id"
+    );
+
+    const lessonIds = lessons.map(l => l._id);
+
+    // If teacher has no lessons, return empty list
+    if (lessonIds.length === 0) {
+      return res.json([]);
+    }
+
+    // Find quizzes linked to those lessons
+    const quizzes = await Quiz.find({
+      lessonId: { $in: lessonIds },
+    })
       .populate("lessonId", "title")  // replaces lessonid with lesson data
       .sort({ createdAt: -1 });
 

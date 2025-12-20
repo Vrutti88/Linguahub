@@ -8,7 +8,7 @@ export const getLessons = async (req, res) => {
 
     if (role === "teacher") {
       // Teacher sees all lessons
-      const lessons = await Lesson.find().sort({ order: 1 });
+      const lessons = await Lesson.find({ createdBy: req.user.id }).sort({ order: 1 });
       return res.json(lessons);
     }
 
