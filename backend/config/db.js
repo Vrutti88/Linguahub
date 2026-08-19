@@ -2,22 +2,20 @@ import mongoose from "mongoose";
 
 let isConnected = false;
 
+// MongoDB Atlas Cloud Connection String
+const ATLAS_URI =
+  "mongodb+srv://vruttipatil1396_db_user:eV6DapylACpIqXWk@linguahub.tyknizj.mongodb.net/linguahub?retryWrites=true&w=majority";
+
 const connectDB = async () => {
   if (isConnected || mongoose.connection.readyState >= 1) {
     return;
   }
 
-  const rawURI =
-    process.env.MONGODB_URI ||
-    (process.env.DB_URL ? process.env.DB_URL + (process.env.DB_NAME || "") : "");
-
-  const mongoURI = rawURI ? rawURI.trim() : "";
-
-  if (!mongoURI) {
-    const errorMsg = "MongoDB Connection Error: MONGODB_URI is not defined in Vercel Environment Variables.";
-    console.error(errorMsg);
-    throw new Error(errorMsg);
-  }
+  // Priority: 1) MONGODB_URI env var, 2) DB_URL env var (for local), 3) Cloud Atlas URI fallback
+  const mongoURI =
+    (process.env.MONGODB_URI && process.env.MONGODB_URI.trim()) ||
+    (process.env.DB_URL ? (process.env.DB_URL + (process.env.DB_NAME || "")).trim() : null) ||
+    ATLAS_URI;
 
   try {
     const db = await mongoose.connect(mongoURI, {
