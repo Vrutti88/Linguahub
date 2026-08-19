@@ -28,6 +28,14 @@ app.use(async (req, res, next) => {
 });
 
 // Health check endpoint
+app.get("/", (req, res) => {
+  res.status(200).json({ status: "ok", message: "LinguaHub API is running" });
+});
+
+app.get("/api", (req, res) => {
+  res.status(200).json({ status: "ok", message: "LinguaHub API is running" });
+});
+
 app.get("/api/health", (req, res) => {
   res.status(200).json({ status: "ok", message: "LinguaHub API is running" });
 });
