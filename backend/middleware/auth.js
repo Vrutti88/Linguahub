@@ -8,7 +8,8 @@ export default async (req, res, next) => {
 
     const token = header.replace("Bearer ", "").trim();
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const secret = process.env.JWT_SECRET || "8jshd7#ks82L@19hds8!la0";
+    const decoded = jwt.verify(token, secret);
 
     // Support ALL possible token formats:
     const userId = decoded.id || decoded._id || decoded.user?.id;

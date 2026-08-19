@@ -4,9 +4,10 @@ import jwt from "jsonwebtoken";
 
 // Generate JWT token
 const generateToken = (user) => {
+  const secret = process.env.JWT_SECRET || "8jshd7#ks82L@19hds8!la0";
   return jwt.sign(
     { id: user._id },
-    process.env.JWT_SECRET,
+    secret,
     { expiresIn: "7d" }
   );
 };
