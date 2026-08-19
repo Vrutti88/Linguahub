@@ -13,11 +13,24 @@ import onboardingRoutes from "./routes/onboardingRoutes.js";
 import progressRoutes from "./routes/progressRoutes.js";
 import demoRoutes from "./routes/demoRoutes.js";
 
+// Connect DB initially
 connectDB();
 
 const app = express();
-app.use(express.json());
+
 app.use(cors());
+app.use(express.json());
+
+// Ensure database connection middleware for serverless requests
+app.use(async (req, res, next) => {
+  await connectDB();
+  next();
+});
+
+// Health check endpoint
+app.get("/api/health", (req, res) => {
+  res.status(200).json({ status: "ok", message: "LinguaHub API is running" });
+});
 
 // API routes
 app.use("/api", authRoutes);
@@ -29,6 +42,11 @@ app.use("/api", onboardingRoutes);
 app.use("/api", progressRoutes);
 app.use("/api", demoRoutes);
 
-app.listen(8000, () => console.log("Server running on port 8000"));
-// console.log("JWT_SECRET:", process.env.JWT_SECRET);
+// Start server locally if not in Vercel Serverless environment
+if (!process.env.VERCEL) {
+  const PORT = process.env.PORT || 8000;
+  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+}
+
+export default app;
 

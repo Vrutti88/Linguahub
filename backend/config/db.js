@@ -1,12 +1,30 @@
 import mongoose from "mongoose";
 
+let isConnected = false;
+
 const connectDB = async () => {
+  if (isConnected || mongoose.connection.readyState >= 1) {
+    return;
+  }
+
+  const mongoURI =
+    process.env.MONGODB_URI ||
+    (process.env.DB_URL ? process.env.DB_URL + (process.env.DB_NAME || "") : "");
+
+  if (!mongoURI) {
+    console.error("MongoDB Connection Error: Neither MONGODB_URI nor DB_URL is defined.");
+    return;
+  }
+
   try {
-    await mongoose.connect(process.env.DB_URL + process.env.DB_NAME);
-    console.log("MongoDB Connected");
+    const db = await mongoose.connect(mongoURI);
+    isConnected = db.connections[0].readyState === 1;
+    console.log("MongoDB Connected Successfully");
   } catch (err) {
-    console.error(err);
-    process.exit(1);
+    console.error("MongoDB Connection Error:", err.message);
+    if (process.env.NODE_ENV !== "production" && !process.env.VERCEL) {
+      process.exit(1);
+    }
   }
 };
 

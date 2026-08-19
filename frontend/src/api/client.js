@@ -1,7 +1,11 @@
 import axios from "axios"; //js lib for making http req
 
+const apiBaseURL =
+  import.meta.env.VITE_API_URL ||
+  (import.meta.env.DEV ? "http://localhost:8000/api" : "/api");
+
 const api = axios.create({
-  baseURL: "http://localhost:8000/api",
+  baseURL: apiBaseURL,
 });
 
 // Attach token automatically
