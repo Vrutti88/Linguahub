@@ -4,7 +4,7 @@ let isConnected = false;
 
 // MongoDB Atlas Cloud Connection String
 const ATLAS_URI =
-  "mongodb+srv://vruttipatil1396_db_user:eV6DapylACpIqXWk@linguahub.tyknizj.mongodb.net/linguahub?retryWrites=true&w=majority";
+  "mongodb+srv://vruttipatil1396_db_user:eV6DapylACpIqXWk@atlasdb.jdxrjrs.mongodb.net/linguahub?retryWrites=true&w=majority";
 
 const connectDB = async () => {
   if (isConnected || mongoose.connection.readyState >= 1) {
