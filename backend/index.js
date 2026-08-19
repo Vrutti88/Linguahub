@@ -21,6 +21,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+import mongoose from "mongoose";
+
 // Ensure database connection middleware for serverless requests
 app.use(async (req, res, next) => {
   await connectDB();
@@ -36,8 +38,24 @@ app.get("/api", (req, res) => {
   res.status(200).json({ status: "ok", message: "LinguaHub API is running" });
 });
 
-app.get("/api/health", (req, res) => {
-  res.status(200).json({ status: "ok", message: "LinguaHub API is running" });
+app.get("/api/health", async (req, res) => {
+  try {
+    await connectDB();
+    const states = ["disconnected", "connected", "connecting", "disconnecting"];
+    const dbState = states[mongoose.connection.readyState] || "unknown";
+    res.status(200).json({
+      status: "ok",
+      database: dbState,
+      hasMongoUri: Boolean(process.env.MONGODB_URI || process.env.DB_URL),
+      hasJwtSecret: Boolean(process.env.JWT_SECRET),
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: "error",
+      database: "error",
+      message: err.message,
+    });
+  }
 });
 
 // API routes

@@ -18,6 +18,7 @@ export const saveOnboarding = async (req, res) => {
       user,
     });
   } catch (err) {
-    res.status(500).json(err);
+    console.error("Onboarding Error:", err);
+    res.status(500).json({ msg: err.message || "Failed to save onboarding" });
   }
 };
